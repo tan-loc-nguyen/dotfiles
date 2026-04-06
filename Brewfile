@@ -1,6 +1,3 @@
-# To install everything `brew bundle`
-# To check `brew bundle check`
-# To list all `brew bundle list`
 brew "bat"
 brew "fd"
 brew "fzf"
@@ -14,4 +11,5 @@ brew "tree-sitter-cli"
 brew "vim"
 brew "zoxide"
 cask "font-jetbrains-mono-nerd-font"
+cask "ghostty"
 go "golang.org/x/tools/gopls"
