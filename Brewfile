@@ -1,3 +1,6 @@
+# To install everything `brew bundle`
+# To check `brew bundle check`
+# To list all `brew bundle list`
 brew "bat"
 brew "fd"
 brew "fzf"
