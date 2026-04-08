@@ -12,7 +12,7 @@ return {
       local parsers = {
         "c", "cpp", "lua", "go", "python",
         "typescript", "javascript", "html", "css",
-        "markdown", "markdown_inline",
+        "prisma", "markdown", "markdown_inline",
       }
 
       tree_sitter.install(parsers)
