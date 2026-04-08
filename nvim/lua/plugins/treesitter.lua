@@ -13,6 +13,7 @@ return {
         "c", "cpp", "lua", "go", "python",
         "typescript", "javascript", "html", "css",
         "prisma", "markdown", "markdown_inline",
+        "bash",
       }
 
       tree_sitter.install(parsers)
