@@ -12,3 +12,6 @@ vim.opt.autoindent = true
 -- Use system clipboard
 vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 
+-- Ruler
+vim.opt.relativenumber = true
+
