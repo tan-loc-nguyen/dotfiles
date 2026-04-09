@@ -28,6 +28,9 @@
 - [ ] Window/split navigation keymaps
 - [ ] Keymap discovery helper (which-key or similar)
 
+### Telescope
+- [ ] Bounded search (include/exclude file patterns) for find files and live grep
+
 ## Phase 2 — Language-specific polish
 - [ ] Go: testing workflow
 - [ ] Go: debugger (low priority)
