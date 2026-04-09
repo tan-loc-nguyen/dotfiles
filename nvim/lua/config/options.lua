@@ -14,3 +14,5 @@ vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 -- Ruler
 vim.opt.relativenumber = true
 
+-- Auto-refresh on file changes
+vim.opt.autoread = true
