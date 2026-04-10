@@ -8,7 +8,7 @@ macos-titlebar-style = tabs
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 13
+font-size = 15
 
 # Keybind
 keybind = cmd+p=text:\x10
