@@ -37,9 +37,7 @@
 - [ ] Markdown preview
 
 ## Phase 3 — Git visibility
-- [ ] Git gutter signs
 - [ ] Hunk preview / stage / reset
-- [ ] Blame
 - [ ] Diff view
 
 ## Phase 4 — Visual layer
@@ -59,3 +57,6 @@
 - [x] Set up mason.nvim + mason-lspconfig.nvim
 - [x] TypeScript/JavaScript (ts_ls)
 - [x] LSP keymaps: go-to-definition, references, rename, hover, code actions
+- [x] Lazygit integration (lazygit.nvim)
+- [x] Git gutter signs (gitsigns.nvim)
+- [x] Inline current-line blame (gitsigns.nvim)
