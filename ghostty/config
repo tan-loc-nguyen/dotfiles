@@ -2,7 +2,7 @@
 theme = Catppuccin Mocha
 
 # Background
-background-opacity = 0.85
+background-opacity = 1
 background-blur = macos-glass-clear
 macos-titlebar-style = tabs 
 
