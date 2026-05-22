@@ -4,12 +4,18 @@ return {
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",
+      "saghen/blink.cmp",
     },
     config = function()
+      vim.lsp.config('*', {
+        capabilities = require('blink.cmp').get_lsp_capabilities(),
+      })
+
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "gopls" },
+        ensure_installed = { "ts_ls", "gopls", "prismals", "basedpyright", "bashls", "sqls" },
       })
+
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
