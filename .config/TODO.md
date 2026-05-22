@@ -2,31 +2,13 @@
 
 ## Phase 1 — Core daily loop
 
-### LSP
-- [ ] Prisma (prismals)
-- [ ] Go (gopls)
-- [ ] Python (pyright or basedpyright)
-- [ ] SQL
-- [ ] Bash (bash-language-server)
-- [ ] Diagnostics navigation keymaps ([d / ]d)
-
-### Completion
-- [ ] Completion engine with LSP source
-- [ ] Snippet engine
-
-### Formatter
-- [ ] Formatter integration (format on save)
-- [ ] TS/JS: prettier
-- [ ] Go: goimports
-- [ ] Python: ruff or black
-
 ### Terminal
-- [ ] Terminal toggle (split)
+- [ ] tmux setup (Ghostty → tmux → Neovim stack)
+- [ ] smart-splits.nvim (seamless Ctrl+hjkl navigation + resizing across nvim splits and tmux panes)
 
 ### Navigation
 - [ ] Buffer navigation keymaps
 - [ ] Window/split navigation keymaps
-- [ ] Keymap discovery helper (which-key or similar)
 
 ### Telescope
 - [ ] Bounded search (include/exclude file patterns) for find files and live grep
@@ -51,6 +33,9 @@
 - [ ] Learn marks
 - [ ] Learn macros
 
+## Future optimisations
+- [ ] Replace Telescope with fzf-lua (faster, toggle-ignore/toggle-hidden on the fly with ctrl-i/ctrl-h)
+
 ## Done
 - [x] Add tree-sitter support for prisma, bash
 - [x] Set up nvim-lspconfig
@@ -60,3 +45,19 @@
 - [x] Lazygit integration (lazygit.nvim)
 - [x] Git gutter signs (gitsigns.nvim)
 - [x] Inline current-line blame (gitsigns.nvim)
+- [x] File explorer with git status (oil.nvim + oil-git-status.nvim)
+- [x] Telescope find files including gitignored files (`<leader>fF`)
+- [x] Go (gopls)
+- [x] Inline diagnostics display (native `virtual_lines = { current_line = true }`)
+- [x] Prisma (prismals)
+- [x] Python (basedpyright)
+- [x] SQL (sqls)
+- [x] Bash (bash-language-server + shellcheck)
+- [x] Diagnostics navigation keymaps (`]d`/`[d`, `]e`/`[e`, `]w`/`[w`, `<leader>cd`)
+- [x] Completion engine — blink.cmp (with LSP source, super-tab preset)
+- [x] Snippet engine (friendly-snippets via blink.cmp)
+- [x] Formatter integration — conform.nvim (format on save, `:W` to skip)
+- [x] TS/JS: prettier
+- [x] Go: goimports
+- [x] Python: ruff
+- [x] Keymap discovery helper (which-key.nvim)
