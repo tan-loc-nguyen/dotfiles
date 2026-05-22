@@ -16,3 +16,9 @@ vim.opt.relativenumber = true
 
 -- Auto-refresh on file changes
 vim.opt.autoread = true
+
+-- Diagnostics
+vim.diagnostic.config({
+  virtual_lines = { current_line = true },
+  virtual_text = false,
+})
