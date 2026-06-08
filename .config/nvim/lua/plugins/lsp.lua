@@ -20,7 +20,7 @@ return {
 
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "gopls", "prismals", "basedpyright", "bashls", "sqls" },
+        ensure_installed = { "ts_ls", "gopls", "prismals", "basedpyright", "bashls", "sqls", "ruff" },
       })
 
 
