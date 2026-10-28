@@ -6,3 +6,4 @@ idiomatic_version_file_enable_tools = ["node"]
 node = "lts"
 python = "latest"
 go = "latest"
+uv = "latest"
