@@ -112,3 +112,5 @@ eval "$(zoxide init zsh)"
 source <(fzf --zsh)
 # Set up mise for cross-language/env/tool management
 eval "$(mise activate zsh)"
+
+alias ll='ls -lah'
