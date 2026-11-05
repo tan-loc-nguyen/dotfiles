@@ -25,3 +25,8 @@ keybind = cmd+p=text:\x10
 
 # Notification
 desktop-notifications = true
+
+# Shader
+custom-shader = shaders/contrast.glsl
+custom-shader = shaders/glitchy.glsl
+custom-shader = shaders/crt.glsl
