@@ -2,13 +2,26 @@
 theme = Catppuccin Mocha
 
 # Background
-background-opacity = 1
+background-opacity = 0.8
+background-blur-radius = 20
 background-blur = macos-glass-clear
-macos-titlebar-style = tabs
+
+window-padding-x = 8
+window-padding-y = 8
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 15
 
+# Tab bar
+macos-titlebar-style = hidden
+
+# Cursor
+cursor-style = block
+cursor-style-blink = true
+
 # Keybind
 keybind = cmd+p=text:\x10
+
+# Notification
+desktop-notifications = true
