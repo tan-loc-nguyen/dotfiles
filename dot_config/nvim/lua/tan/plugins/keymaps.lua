@@ -109,6 +109,17 @@ map({ "n", "x" }, "<leader>cf", function()
 	require("conform").format({ formatters = formatters, lsp_format = "fallback", timeout_ms = 1000 })
 end, { desc = "Format" })
 
+-- Agent context: <leader>y* puts text on the clipboard, <leader>a* acts on an agent
+map({ "n", "x" }, "<leader>yf", function()
+	require("tan.utils.agent").yank()
+end, { desc = "Copy @path#L reference" })
+map({ "n", "x" }, "<leader>yp", function()
+	require("tan.utils.agent").yank({ absolute = true })
+end, { desc = "Copy @/absolute/path#L reference" })
+map({ "n", "x" }, "<leader>as", function()
+	require("tan.utils.agent").send()
+end, { desc = "Send reference to a herdr agent" })
+
 -- LSP keys exist only in buffers with a language server. gr* are Neovim's built-in names,
 -- pointed at the snacks picker (list + preview; jumps straight when there's one result).
 vim.api.nvim_create_autocmd("LspAttach", {

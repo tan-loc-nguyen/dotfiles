@@ -33,8 +33,9 @@ local parsers = {
 	"yaml",
 }
 
--- Missing parsers are installed in the background (needs tree-sitter CLI + a C compiler)
-require("nvim-treesitter").install(parsers)
+-- Missing parsers are installed in the background (needs tree-sitter CLI + a C compiler).
+-- The task is kept so a first start can wait for it: `M.installing:wait(ms)`.
+local M = { installing = require("nvim-treesitter").install(parsers) }
 
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
@@ -43,3 +44,5 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 	end,
 })
+
+return M

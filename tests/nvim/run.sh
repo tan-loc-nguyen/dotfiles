@@ -13,9 +13,15 @@ export XDG_CONFIG_HOME="$repo/dot_config"
 if [ "${1:-}" = "--cold" ]; then
 	cold="$(mktemp -d)"
 	export XDG_DATA_HOME="$cold/data" XDG_STATE_HOME="$cold/state" XDG_CACHE_HOME="$cold/cache"
+	# Private copy of the config too: vim.pack writes its lockfile next to init.lua, and a
+	# cold install must not rewrite the lockfile the warm data dir matches.
+	mkdir -p "$cold/config" && cp -R "$XDG_CONFIG_HOME/nvim" "$cold/config/nvim"
+	rm -f "$cold/config/nvim/nvim-pack-lock.json"
+	export XDG_CONFIG_HOME="$cold/config"
 	echo "cold run in $cold"
-	# First start installs plugins; it must itself be error-free.
-	nvim --headless +qa || {
+	# First start installs plugins; it must itself be error-free. It also waits for parser
+	# installs, otherwise their orphaned downloads race with the next nvim's downloads.
+	nvim --headless -c 'lua require("tan.plugins.treesitter").installing:wait(600000)' +qa || {
 		echo "FAIL first (installing) start exited non-zero"
 		exit 1
 	}
