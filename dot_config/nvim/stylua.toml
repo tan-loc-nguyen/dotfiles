@@ -1,0 +1,4 @@
+# stylua defaults (tabs, 120 columns). Its presence also opts this folder into
+# format-on-save for Lua (see tan/utils/format.lua).
+indent_type = "Tabs"
+column_width = 120
