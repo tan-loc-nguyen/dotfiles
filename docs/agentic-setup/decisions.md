@@ -56,6 +56,7 @@ Nothing machine-specific may be assumed silently.
 | Ghostty Cmd-key → herdr mappings (e.g. `Cmd+D` split) | **Deferred** (you) | Revisit later. |
 | herdr Claude integration (`herdr integration install claude`) | Install; it writes hooks (SessionStart, PreToolUse, Stop) into `~/.claude/settings.json` → track that change in this repo | (Claude's call) |
 | Config location | `.config/herdr/config.toml` in this repo, symlinked like nvim/ghostty | (Claude's call) |
+| Final config (implemented 2026-11-08) | `prefix = "ctrl+space"`; pane focus = herdr defaults `prefix+h/j/k/l`; `[ui.toast] delivery = "system"` (macOS notification on done + needs-input, skipped for the active tab); `terminal-notifier` added to Brewfile so clicking a notification focuses the terminal; sidebar left at herdr default (expanded) since agent status is the main pain; `onboarding = false` | (Claude's calls within the decided scope) |
 
 Facts gathered (from reading source, 2026-11-07):
 - herdr v0.9.5, Apache-2.0, very active (62 releases). OpenCode is a first-class detected agent.

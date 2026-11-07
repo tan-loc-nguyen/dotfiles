@@ -1,0 +1,16 @@
+# herdr — terminal workspace manager for coding agents (https://herdr.dev/docs/configuration/)
+# Only non-defaults live here. In-app help: prefix+?   Validate: `herdr config check`.
+onboarding = false
+
+[keys]
+# ctrl+b felt awkward. Needs macOS's ⌃Space "Select the previous input source" shortcut
+# turned off (System Settings → Keyboard → Keyboard Shortcuts → Input Sources).
+prefix = "ctrl+space"
+# Pane focus (two-layer navigation: `s h/j/k/l` inside nvim, prefix+h/j/k/l between panes)
+# uses herdr's defaults: prefix+h / prefix+j / prefix+k / prefix+l.
+
+[ui.toast]
+# macOS notification when a background agent finishes or needs input.
+# "system" uses terminal-notifier (Brewfile) so clicking it brings the terminal forward.
+# herdr skips the popup for the tab you're already looking at.
+delivery = "system"
