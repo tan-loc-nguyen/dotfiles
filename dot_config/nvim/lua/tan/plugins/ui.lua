@@ -21,8 +21,12 @@ require("snacks").setup({
 	lazygit = { enabled = true }, -- lazygit in a float
 })
 
--- Floating ':' box, centered left-right, 20% from the top (search keeps the native bottom line)
-require("tiny-cmdline").setup({ position = { x = "50%", y = "20%" } })
+-- Floating ':' box, centered left-right, 20% from the top (search keeps the native bottom line).
+-- The blink adapter keeps blink's ':' completion menu attached to the box.
+require("tiny-cmdline").setup({
+	position = { x = "50%", y = "20%" },
+	on_reposition = require("tiny-cmdline").adapters.blink,
+})
 
 local function macro()
 	local reg = vim.fn.reg_recording()
