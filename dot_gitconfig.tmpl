@@ -1,0 +1,31 @@
+# Rendered by chezmoi from dot_gitconfig.tmpl — identity comes from this machine's
+# chezmoi prompts (~/.config/chezmoi/chezmoi.toml). Edit the repo file, then `chezmoi apply`.
+[user]
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
+
+[github]
+	user = {{ .githubUser | quote }}
+
+[init]
+	defaultBranch = main
+
+[core]
+	editor = nvim
+	pager = delta
+	excludesfile = ~/.config/git/ignore
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+
+# `git difftool` / `git mergetool` use git's built-in nvimdiff integration
+[diff]
+	tool = nvimdiff
+
+[merge]
+	tool = nvimdiff
+	conflictstyle = zdiff3

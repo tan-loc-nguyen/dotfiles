@@ -1,14 +1,26 @@
+# Rendered by chezmoi from dot_zprofile.tmpl — edit the repo file, then `chezmoi apply`.
+# Machine-specific PATHs are only written on machines where the folder exists.
+
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 
+export EDITOR=nvim
+export VISUAL=nvim
+
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
+{{- if stat (joinPath .chezmoi.homeDir ".docker/bin") }}
 export PATH="$HOME/.docker/bin:$PATH"                         # Docker Desktop CLI
+{{- end }}
+{{- if stat "/opt/homebrew/lib/ruby/gems/4.0.0/bin" }}
 export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"     # CocoaPods (gem on Homebrew Ruby)
+{{- end }}
+{{- if stat (joinPath .chezmoi.homeDir "Library/Android/sdk") }}
 
 # Android SDK
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+{{- end }}
 
 # Claude Code
 export CLAUDE_CODE_NO_FLICKER=1
