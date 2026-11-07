@@ -9,6 +9,10 @@ local cases = {
 	{ "pkgprettier/a.ts", prettier }, -- "prettier" key in package.json
 	{ "nested/packages/a/src/a.ts", prettier }, -- config in a parent folder (monorepo)
 	{ "prettier-md/a.md", prettier },
+	{ "monorepo-pkg/packages/a/src/a.ts", prettier }, -- "prettier" key in the ROOT package.json
+	{ "uv-ws/packages/m/a.py", { "ruff_format" } }, -- [tool.ruff] in the workspace root pyproject
+	{ "biome-lintonly/a.ts", prettier }, -- biome with formatter disabled → prettier formats
+	{ "biome-lintonly-noprettier/a.ts", {} },
 	{ "oxfmt/a.ts", { "oxfmt" } },
 	{ "biome/a.ts", { "biome" } },
 	{ "none/a.ts", {} },

@@ -1,5 +1,13 @@
 # Plain zsh (replaces oh-my-zsh, whose git aliases were never used).
 
+### Line editing: emacs keys (zsh picks vi-mode when EDITOR contains "vi", and EDITOR=nvim),
+### allow `# comments` in typed/pasted commands, and make Delete/Home/End work.
+bindkey -e
+setopt interactive_comments
+bindkey '^[[3~' delete-char
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+
 ### Completion
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select

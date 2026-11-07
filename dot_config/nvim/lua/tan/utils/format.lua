@@ -42,14 +42,19 @@ local configs = {
 
 -- Search from the file's folder up to the git root (inclusive); never above it, so a stray
 -- config in ~/Workspace can't opt a repo in. Without a git root, stop below $HOME.
-local function find(bufnr, names)
+---@return string[] every match, nearest first
+local function find_all(bufnr, names)
 	local file = vim.api.nvim_buf_get_name(bufnr)
 	if file == "" then
-		return nil
+		return {}
 	end
 	local git_root = vim.fs.root(bufnr, ".git")
 	local stop = git_root and vim.fs.dirname(git_root) or vim.env.HOME
-	return vim.fs.find(names, { path = vim.fs.dirname(file), upward = true, stop = stop })[1]
+	return vim.fs.find(names, { path = vim.fs.dirname(file), upward = true, stop = stop, limit = math.huge })
+end
+
+local function find(bufnr, names)
+	return find_all(bufnr, names)[1]
 end
 
 local function file_contains(path, pattern)
@@ -62,8 +67,25 @@ local function file_contains(path, pattern)
 	return content:find(pattern) ~= nil
 end
 
+-- Shared files (package.json, pyproject.toml) exist at every level of a monorepo/workspace,
+-- so check all of them up to the git root, not just the nearest one.
+local function any_contains(bufnr, name, pattern)
+	for _, path in ipairs(find_all(bufnr, { name })) do
+		if file_contains(path, pattern) then
+			return true
+		end
+	end
+	return false
+end
+
 local function has_prettier(bufnr)
-	return find(bufnr, configs.prettier) ~= nil or file_contains(find(bufnr, { "package.json" }), '"prettier"%s*:')
+	return find(bufnr, configs.prettier) ~= nil or any_contains(bufnr, "package.json", '"prettier"%s*:')
+end
+
+-- biome.json can turn biome's formatter off (biome used only as a linter)
+local function biome_formats(bufnr)
+	local path = find(bufnr, configs.biome)
+	return path ~= nil and not file_contains(path, '"formatter"%s*:%s*{[^}]-"enabled"%s*:%s*false')
 end
 
 ---@return string[] conform formatter names, in try order (first available wins)
@@ -75,7 +97,7 @@ function M.formatters_for(bufnr)
 	if js_like[ft] then
 		if find(bufnr, configs.oxfmt) then
 			return { "oxfmt" }
-		elseif find(bufnr, configs.biome) then
+		elseif biome_formats(bufnr) then
 			return { "biome" }
 		elseif has_prettier(bufnr) then
 			return { "prettierd", "prettier" }
@@ -86,7 +108,7 @@ function M.formatters_for(bufnr)
 		return has_prettier(bufnr) and { "prettierd", "prettier" } or {}
 	end
 	if ft == "python" then
-		local declared = find(bufnr, configs.ruff) or file_contains(find(bufnr, { "pyproject.toml" }), "%[tool%.ruff")
+		local declared = find(bufnr, configs.ruff) or any_contains(bufnr, "pyproject.toml", "%[tool%.ruff")
 		return declared and { "ruff_format" } or {}
 	end
 	if ft == "sh" or ft == "bash" then

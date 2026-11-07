@@ -3,6 +3,16 @@
 local t = dofile(vim.env.TESTS_DIR .. "/helpers.lua")
 
 t.run("startup", function()
+	vim.wait(500) -- let scheduled startup notifications fire
+	-- snacks.notifier replaces vim.notify, so notify errors never reach :messages
+	local notified = {}
+	for _, n in ipairs(Snacks.notifier.get_history()) do
+		if n.level == vim.log.levels.ERROR or tostring(n.level):lower() == "error" then
+			table.insert(notified, n.msg)
+		end
+	end
+	t.ok(#notified == 0, "error notifications at startup:\n" .. table.concat(notified, "\n"))
+
 	local messages = vim.fn.execute("messages")
 	t.ok(
 		not messages:find("E%d+:") and not messages:lower():find("error"),

@@ -7,15 +7,21 @@ Neovim + coding agents (Claude Code). Every decision and its reason is in
 ## New machine
 
 ```sh
-# 1. Homebrew (the bootstrap script also installs it if missing)
+# 1. Homebrew, then put it on PATH for this shell (Apple Silicon installs to /opt/homebrew)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install chezmoi git
 
 # 2. Clone to the expected place and apply (asks once for git name / email / GitHub user)
 git clone https://github.com/tan-loc-nguyen/dotfiles ~/Workspace/dotfiles
 chezmoi init --source ~/Workspace/dotfiles --apply
 
-# 3. Open nvim once: plugins, parsers and language servers install themselves
+# 3. Runtimes, in a new login shell so the new ~/.zprofile and mise are active.
+#    Mason needs node/npm and go to install most language servers.
+exec zsh -l
+mise install
+
+# 4. Open nvim once: plugins, parsers and language servers install themselves
 nvim
 ```
 
@@ -23,7 +29,7 @@ nvim
 
 | Script | Runs when | Does |
 |---|---|---|
-| `10-install-homebrew-packages` | Brewfile changes | installs Homebrew if missing, `brew bundle` |
+| `10-install-homebrew-packages` | Brewfile changes | installs Homebrew if missing, `brew bundle --no-upgrade` (installs missing only; upgrade with `brew upgrade` yourself) |
 | `20-install-claude-code` | once (if `claude` missing) | Claude Code native installer |
 | `30-herdr-integrations` | an agent CLI appears | `herdr integration install claude/opencode` |
 | `40-claude-statusline` | script changes | merges `statusLine` into `~/.claude/settings.json` (jq) |
@@ -31,7 +37,6 @@ nvim
 Then do by hand:
 - System Settings → Keyboard → Keyboard Shortcuts → Input Sources → untick
   **"Select the previous input source" (⌃Space)** — herdr's prefix is `ctrl+space`.
-- `mise install` for the runtimes in `~/.config/mise/config.toml`.
 
 ## Daily rules
 - **Edit config in place** (`~/.config/...`) — plain files are symlinks into this repo.
@@ -70,6 +75,8 @@ ruff / editorconfig for shfmt / stylua); Go always uses goimports.
 ```sh
 tests/nvim/run.sh          # headless checks: startup, keymaps, LSP, formatting, parsers, agent helpers
 tests/nvim/run.sh --cold   # same on fresh data dirs (simulates a new machine; skips LSP)
+tests/shell/check_zsh.sh   # interactive zsh keeps emacs keys, comments, Delete/Home/End
+tests/shell/check_bootstrap.sh  # run_ scripts render + shellcheck; brew never upgrades
 ```
 
 ## Restore the pre-chezmoi setup
