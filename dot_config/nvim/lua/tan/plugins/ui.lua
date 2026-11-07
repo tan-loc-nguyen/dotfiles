@@ -17,6 +17,8 @@ require("snacks").setup({
 	words = { enabled = true }, -- highlight other uses of the symbol under the cursor
 	-- [diagnostic/mark] [number] [git/fold]: git signs never hidden by diagnostics
 	statuscolumn = { enabled = true, left = { "mark", "sign" }, right = { "fold", "git" } },
+	picker = { enabled = true }, -- <leader>f* finders (keymaps.lua)
+	lazygit = { enabled = true }, -- lazygit in a float
 })
 
 -- Floating ':' box, centered left-right, 20% from the top (search keeps the native bottom line)

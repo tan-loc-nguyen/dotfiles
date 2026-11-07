@@ -28,6 +28,39 @@ local expected = {
 	{ "n", "<leader>cd" },
 	-- which-key buffer-local help
 	{ "n", "<leader>?" },
+	-- §3.1 pickers
+	{ "n", "<leader>ff" },
+	{ "n", "<leader>fF" },
+	{ "n", "<leader>fg" },
+	{ "n", "<leader>fG" },
+	{ "n", "<leader>fb" },
+	{ "n", "<leader>fh" },
+	{ "n", "<leader>fd" },
+	{ "n", "<leader>fs" },
+	{ "n", "<leader>fS" },
+	{ "n", "<C-p>" },
+	-- §3.2 buffers
+	{ "n", "<leader>bd" },
+	{ "n", "<leader>bh" },
+	-- §3.5 oil
+	{ "n", "-" },
+	{ "n", "sf" },
+	-- §3.3 git review
+	{ "n", "]h" },
+	{ "n", "[h" },
+	{ "n", "<leader>gs" },
+	{ "x", "<leader>gs" },
+	{ "n", "<leader>gr" },
+	{ "x", "<leader>gr" },
+	{ "n", "<leader>gp" },
+	{ "n", "<leader>gS" },
+	{ "n", "<leader>gR" },
+	{ "n", "<leader>gb" },
+	{ "n", "<leader>gd" },
+	{ "n", "<leader>gh" },
+	{ "n", "<leader>gH" },
+	{ "n", "<leader>gg" },
+	{ "n", "<leader>gf" },
 }
 
 t.run("keymaps", function()
