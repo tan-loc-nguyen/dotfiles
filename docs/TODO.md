@@ -1,63 +1,40 @@
-# Neovim Setup Roadmap
+# Dev Setup Roadmap
 
-## Phase 1 — Core daily loop
+The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done — see
+`docs/agentic-setup/decisions.md` for every choice and `README.md` for the key reference.
 
-### Terminal
-- [ ] tmux setup (Ghostty → tmux → Neovim stack)
-- [ ] smart-splits.nvim (seamless Ctrl+hjkl navigation + resizing across nvim splits and tmux panes)
+## Next projects
+- [ ] Local models: Ollama + OpenCode (48 GB M5 Pro → ~30B-class quantized models)
+  - [ ] Check whether OpenCode understands `@path#L12-20` references (`<leader>yf` / `<leader>as`)
+  - [ ] Decide on AI inline completion in the editor (local model vs none)
+- [ ] Ghostty Cmd-key → herdr action mappings (e.g. `Cmd+D` split) — deferred
+- [ ] Try tsgo (TypeScript 7 native server) once projects move to TS 7
 
-### Navigation
-- [ ] Buffer navigation keymaps
-- [ ] Window/split navigation keymaps
-
-### Telescope
-- [ ] Bounded search (include/exclude file patterns) for find files and live grep
-
-## Phase 2 — Language-specific polish
+## Language polish
 - [ ] Go: testing workflow
 - [ ] Go: debugger (low priority)
-- [ ] Markdown preview
 
-## Phase 3 — Git visibility
-- [ ] Hunk preview / stage / reset
-- [ ] Diff view
-
-## Phase 4 — Visual layer
-- [ ] Statusline
-- [ ] Bufferline / tab bar
-- [ ] Better diagnostics display
-
-## Phase 5 — Vim skill training
+## Vim skill training
 - [ ] Practice motions and text objects
 - [ ] Learn registers
 - [ ] Learn marks
 - [ ] Learn macros
 
-## Future optimisations
-- [ ] Replace Telescope with fzf-lua (faster, toggle-ignore/toggle-hidden on the fly with ctrl-i/ctrl-h)
+## Dropped (superseded by the migration)
+- tmux + smart-splits.nvim → herdr, with two-layer navigation (`s h/j/k/l` in nvim,
+  `ctrl+space h/j/k/l` between herdr panes)
+- Telescope bounded search / fzf-lua → snacks picker (`<leader>f*`; capitals include ignored files)
 
 ## Done
-- [x] Add tree-sitter support for prisma, bash
-- [x] Set up nvim-lspconfig
-- [x] Set up mason.nvim + mason-lspconfig.nvim
-- [x] TypeScript/JavaScript (ts_ls)
-- [x] LSP keymaps: go-to-definition, references, rename, hover, code actions
-- [x] Lazygit integration (lazygit.nvim)
-- [x] Git gutter signs (gitsigns.nvim)
-- [x] Inline current-line blame (gitsigns.nvim)
-- [x] File explorer with git status (oil.nvim + oil-git-status.nvim)
-- [x] Telescope find files including gitignored files (`<leader>fF`)
-- [x] Go (gopls)
-- [x] Inline diagnostics display (native `virtual_lines = { current_line = true }`)
-- [x] Prisma (prismals)
-- [x] Python (basedpyright)
-- [x] SQL (sqls)
-- [x] Bash (bash-language-server + shellcheck)
-- [x] Diagnostics navigation keymaps (`]d`/`[d`, `]e`/`[e`, `]w`/`[w`, `<leader>cd`)
-- [x] Completion engine — blink.cmp (with LSP source, super-tab preset)
-- [x] Snippet engine (friendly-snippets via blink.cmp)
-- [x] Formatter integration — conform.nvim (format on save, `:W` to skip)
-- [x] TS/JS: prettier
-- [x] Go: goimports
-- [x] Python: ruff
-- [x] Keymap discovery helper (which-key.nvim)
+- [x] chezmoi-managed dotfiles (symlink mode), fresh-machine bootstrap scripts
+- [x] herdr: persistent sessions + agent blocked/done notifications
+- [x] Plain zsh (no oh-my-zsh), autosuggestions, syntax highlighting, `EDITOR=nvim`
+- [x] Git: templated identity, delta pager, nvimdiff diff/merge tool
+- [x] Neovim on vim.pack + 0.12 built-ins (ui2, vim.lsp.enable, after/lsp)
+- [x] Buffer / window / tab navigation keymaps
+- [x] Markdown preview
+- [x] Hunk preview / stage / reset (gitsigns) and side-by-side review (codediff)
+- [x] Statusline (lualine), tabline, incline labels, snacks statuscolumn
+- [x] Per-project format-on-save policy; JSON/YAML schema validation
+- [x] Agent reference copy (`<leader>yf`) and send-to-agent (`<leader>as`)
+- [x] Headless test suite for the Neovim config (`tests/nvim/run.sh`)

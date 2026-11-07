@@ -6,8 +6,10 @@ loosely based on `docs/agentic-setup/guidelines.md` (craftzdog's setup). We do
 
 - Branch: `feat/agentic-coding-setup`
 - Started: 2026-11-07
-- Status: **brainstorming** — nothing built yet. When all sections are decided, this
-  becomes the design doc, then an implementation plan.
+- Status: **implemented** on `feat/agentic-coding-setup` (2026-11-08). Design:
+  `docs/superpowers/specs/2026-11-08-agentic-setup-design.md`; plan:
+  `docs/superpowers/plans/2026-11-08-agentic-setup.md`. Implementation-time choices
+  (builder rulings) are listed in the PR description.
 
 Legend: **(you)** = your decision · **(rec)** = Claude's recommendation you accepted ·
 **(Claude's call)** = decided by Claude, open to override.
