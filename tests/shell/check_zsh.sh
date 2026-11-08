@@ -16,6 +16,8 @@ out="$(ZDOTDIR="$tmp" zsh -l -i -c '
 	echo "del:$(bindkey "^[[3~")"
 	echo "home:$(bindkey "^[[H")"
 	echo "end:$(bindkey "^[[F")"
+	echo "stab:$(bindkey "^[[Z")"
+	echo "tab:$(bindkey "^I")"
 ' 2>/dev/null)"
 
 fail=0
@@ -27,4 +29,6 @@ check "comments:on" "interactive comments"
 check "delete-char" "Delete key"
 check "beginning-of-line" "Home key"
 check "end-of-line" "End key"
+check "stab:.*autosuggest-accept" "Shift+Tab accepts the suggestion"
+check "tab:.*fzf-completion" "Tab still completes (fzf-completion)"
 exit $fail

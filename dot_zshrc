@@ -38,6 +38,8 @@ eval "$(mise activate zsh)"
 
 ### Plugins (Homebrew). syntax-highlighting must be sourced last.
 source "${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Shift+Tab accepts the faded suggestion (Tab stays normal/fzf completion; Right arrow also accepts)
+bindkey "^[[Z" autosuggest-accept
 source "${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 alias ll='ls -lah'

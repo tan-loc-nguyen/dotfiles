@@ -51,6 +51,8 @@ Then do by hand:
 
 ## Keys
 
+**zsh**: `Shift+Tab` (or `→`) accepts the faded history suggestion · `Tab` completes (`**<Tab>` = fzf picker, e.g. `nvim **<Tab>`).
+
 **herdr** (prefix `ctrl+space`): `prefix h/j/k/l` move between panes · `prefix v` / `prefix -`
 split · `prefix b` sidebar · `prefix q` detach (`herdr` reattaches) · `prefix ?` help.
 
