@@ -29,9 +29,9 @@ nvim
 
 | Script | Runs when | Does |
 |---|---|---|
-| `10-install-homebrew-packages` | Brewfile changes | installs Homebrew if missing, `brew bundle --no-upgrade` (installs missing only; upgrade with `brew upgrade` yourself) |
-| `20-install-claude-code` | once (if `claude` missing) | Claude Code native installer |
-| `30-herdr-integrations` | an agent CLI appears | `herdr integration install claude/opencode` |
+| `10-brew` | Brewfile changes | installs Homebrew if missing, `brew bundle --no-upgrade` (installs missing only; upgrade with `brew upgrade` yourself) |
+| `20-claude-code` | once (if `claude` missing) | Claude Code native installer |
+| `30-herdr` | an agent CLI appears | `herdr integration install claude/opencode` |
 
 Then do by hand:
 - System Settings → Keyboard → Keyboard Shortcuts → Input Sources → untick
