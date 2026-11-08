@@ -98,7 +98,7 @@ Facts gathered (from reading source, 2026-11-07):
 - **Wrap: everywhere** (you), with `linebreak` + `breakindent` so wrapped code stays
   readable (Claude's call). **j/k move by real lines** (you); use `gj`/`gk` for screen lines.
 - **Messages: full guide setup** (you): cmdheight 0, Neovim 0.12 **ui2** (corner popups for
-  short messages, pager for long output), **tiny-cmdline.nvim** floating `:` box.
+  short messages, pager for long output), **tiny-cmdline.nvim** floating `:` box, centered in the window (you, 2026-11-08; guide had 20% from top).
   Note: ui2 is experimental in 0.12.
 - **Swapfile + writebackup: off** (you). Undo history + git cover recovery.
 - **Statusline: global** (laststatus 3) (you).
