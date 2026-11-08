@@ -25,13 +25,14 @@ mise install
 nvim
 ```
 
-`chezmoi apply` runs these scripts (in order):
+`chezmoi apply` runs one script, `run_onchange_bootstrap.sh.tmpl`, top to bottom:
+1. Homebrew (if missing) + `brew bundle --no-upgrade` — installs what's missing, never upgrades
+   (run `brew upgrade` yourself)
+2. Claude Code native installer, if `claude` is missing
+3. `herdr integration install` for each agent CLI present (claude, opencode)
 
-| Script | Runs when | Does |
-|---|---|---|
-| `10-brew` | Brewfile changes | installs Homebrew if missing, `brew bundle --no-upgrade` (installs missing only; upgrade with `brew upgrade` yourself) |
-| `20-claude-code` | once (if `claude` missing) | Claude Code native installer |
-| `30-herdr` | an agent CLI appears | `herdr integration install claude/opencode` |
+Every step skips work already done. It re-runs automatically when the script, the Brewfile,
+or the installed agent CLIs change.
 
 Then do by hand:
 - System Settings → Keyboard → Keyboard Shortcuts → Input Sources → untick
