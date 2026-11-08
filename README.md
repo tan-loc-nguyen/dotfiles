@@ -32,7 +32,6 @@ nvim
 | `10-install-homebrew-packages` | Brewfile changes | installs Homebrew if missing, `brew bundle --no-upgrade` (installs missing only; upgrade with `brew upgrade` yourself) |
 | `20-install-claude-code` | once (if `claude` missing) | Claude Code native installer |
 | `30-herdr-integrations` | an agent CLI appears | `herdr integration install claude/opencode` |
-| `40-claude-statusline` | script changes | merges `statusLine` into `~/.claude/settings.json` (jq) |
 
 Then do by hand:
 - System Settings → Keyboard → Keyboard Shortcuts → Input Sources → untick
@@ -41,12 +40,13 @@ Then do by hand:
 ## Daily rules
 - **Edit config in place** (`~/.config/...`) — plain files are symlinks into this repo.
   Exceptions are copies rendered by chezmoi; edit them **in the repo**, then `chezmoi apply`:
-  `~/.gitconfig`, `~/.zprofile` (templates) and `~/.claude/statusline.sh` (executable).
+  `~/.gitconfig` and `~/.zprofile` (templates).
 - **New config files**: create them in the repo (then `chezmoi apply`), or `chezmoi add` them —
   a new file under `~/.config` isn't in the repo by itself.
 - **Where tools come from**: brew = CLI tools (`Brewfile`) · mise = runtimes · Mason (inside
   nvim) = language servers + formatters.
-- Not tracked on purpose: `~/.claude/settings.json` (Claude Code and herdr rewrite it),
+- Not tracked on purpose: everything in `~/.claude` — `CLAUDE.md` and `statusline.sh` are
+  per-machine and `settings.json` is rewritten by Claude Code and herdr; also
   `nvim-pack-lock.json` (plugins float per machine).
 
 ## Keys

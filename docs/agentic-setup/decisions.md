@@ -257,6 +257,9 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
   `~/.claude/settings.json`** (Claude + herdr rewrite it); a chezmoi **run_once** script runs
   `herdr integration install claude` and `... opencode` on new machines (you + rec).
   (craftzdog tracks no Claude config at all.)
+- **Update 2026-11-08 (you): `CLAUDE.md` + `statusline.sh` are now per-machine, untracked** —
+  removed from the repo (kept as real files in this Mac's `~/.claude`) together with the
+  statusLine bootstrap script; nothing in `~/.claude` is managed by chezmoi any more.
 
 ### 3.9 Machine setup specifics
 - **Brewfile** (you): add `chezmoi`, `herdr`, `git-delta`, `jq`, `zsh-autosuggestions`,
