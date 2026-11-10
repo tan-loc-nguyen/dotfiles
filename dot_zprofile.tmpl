@@ -7,7 +7,8 @@ eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 export EDITOR=nvim
 export VISUAL=nvim
 
-# PATH
+# PATH. -U keeps entries unique: a shell started from another shell re-adds them all.
+typeset -U path
 export PATH="$HOME/.local/bin:$PATH"
 {{- if stat (joinPath .chezmoi.homeDir ".docker/bin") }}
 export PATH="$HOME/.docker/bin:$PATH"                         # Docker Desktop CLI
