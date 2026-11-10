@@ -4,9 +4,13 @@ local M = {}
 ---@return string
 function M.buf_label(buf)
 	local name = vim.api.nvim_buf_get_name(buf == 0 and vim.api.nvim_get_current_buf() or buf)
-	if name:match("^oil") then
-		name = vim.fs.basename((name:gsub("/+$", "")))
-		return name ~= "" and (name .. "/") or "/"
+	local scheme, path = name:match("^(oil[%w-]*)://(.*)$")
+	if scheme then
+		local folder = vim.fs.basename((path:gsub("/+$", "")))
+		if folder ~= "" then
+			return folder .. "/"
+		end
+		return scheme == "oil-trash" and "trash/" or "/"
 	end
 	name = vim.fn.fnamemodify(name, ":t")
 	return name ~= "" and name or "[No Name]"

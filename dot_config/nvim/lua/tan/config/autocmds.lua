@@ -22,7 +22,9 @@ autocmd({ "WinEnter", "BufEnter" }, {
 autocmd("WinLeave", {
 	group = group,
 	callback = function()
-		vim.wo.cursorline = false
+		if vim.api.nvim_win_get_config(0).relative == "" then
+			vim.wo.cursorline = false
+		end
 	end,
 })
 

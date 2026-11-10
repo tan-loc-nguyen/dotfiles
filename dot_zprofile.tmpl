@@ -15,8 +15,9 @@ path=("$HOME/.local/bin" $path)
 path=("$HOME/.docker/bin" $path) # Docker Desktop CLI
 {{- end }}
 # CocoaPods (gem on Homebrew Ruby). Found when the shell starts, so it works on the first
-# login after bootstrap installs ruby, and after Ruby version bumps. (N) = skip if none.
-path=(/opt/homebrew/lib/ruby/gems/*/bin(N) $path)
+# login after bootstrap installs ruby, and after Ruby version bumps. Glob flags: N = skip if
+# none, nOn[1] = only the newest version by number (old gems don't run on a new Ruby).
+path=(/opt/homebrew/lib/ruby/gems/*/bin(NnOn[1]) $path)
 {{- if stat (joinPath .chezmoi.homeDir "Library/Android/sdk") }}
 
 # Android SDK

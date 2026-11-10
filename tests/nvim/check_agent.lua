@@ -106,9 +106,12 @@ t.run("agent", function()
 
 	-- the path is relative to the chosen agent's cwd; outside it, absolute
 	local abs = vim.fn.fnamemodify("lsp/app.ts", ":p")
+	local link = vim.fn.tempname()
+	vim.uv.fs_symlink(vim.fn.getcwd() .. "/lsp", link)
 	for _, c in ipairs({
 		{ vim.fn.getcwd() .. "/lsp", "@app.ts#L2", "agent in lsp/: relative to its cwd" },
 		{ "/somewhere/else", "@" .. abs .. "#L2", "agent elsewhere: absolute path" },
+		{ link, "@app.ts#L2", "agent cwd through a symlink: still relative" },
 	}) do
 		agent.list_agents = function()
 			return { { agent = "claude", agent_status = "idle", pane_id = "w1:p9", cwd = c[1] } }

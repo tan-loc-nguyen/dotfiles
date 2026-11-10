@@ -19,6 +19,11 @@ t.run("ui", function()
 		return vim.bo.filetype == "oil"
 	end, 50)
 	t.eq(require("tan.utils.editor").buf_label(0), "lsp/", "oil buffer label")
+	for _, c in ipairs({ { "oil:///", "/" }, { "oil-trash:///", "trash/" }, { "oil-ssh://host//srv/app/", "app/" } }) do
+		local b = vim.api.nvim_create_buf(false, true)
+		vim.api.nvim_buf_set_name(b, c[1])
+		t.eq(require("tan.utils.editor").buf_label(b), c[2], "label for " .. c[1])
+	end
 	vim.cmd("tabnew")
 	local ok_oil, res_oil =
 		pcall(vim.api.nvim_eval_statusline, require("tan.utils.tabline").render(), { use_tabline = true })
@@ -34,5 +39,8 @@ t.run("ui", function()
 	vim.api.nvim_exec_autocmds("WinEnter", {})
 	vim.api.nvim_exec_autocmds("BufEnter", {})
 	t.eq(vim.wo[float].cursorline, false, "float: cursorline left as the plugin set it")
+	vim.wo[float].cursorline = true -- e.g. a picker list highlights its current item
+	vim.api.nvim_exec_autocmds("WinLeave", {})
+	t.eq(vim.wo[float].cursorline, true, "float: leaving it keeps the plugin's cursorline")
 	vim.api.nvim_win_close(float, true)
 end)

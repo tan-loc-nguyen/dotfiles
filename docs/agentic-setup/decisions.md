@@ -310,6 +310,13 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
   ~0.01 ms per redraw; full `compinit` ~18 ms warm vs ~5 ms with `-C` (whole shell 90 ms),
   and `-C` would miss completions new brew installs add. Rejected: "`herdr agent focus`
   may not take a pane id" (tested: `herdr agent focus <pane_id>` exits 0).
+- **Fourth review, 2026-11-10** (you: go). Fixed: `"prettier": null`/`false` counted as a
+  config (only a table or a shared-config name counts now); oil root/trash views were
+  labelled `oil:/`/`oil-trash:/` (now `/`, `trash/`); `WinLeave` still turned cursorline off
+  in floats; the Ruby gems glob added every version, oldest first (now only the newest, by
+  number: `(NnOn[1])`); the gems test only grepped text (now runs the real line against a
+  fake gems folder, and checks a clean login shell); agent cwd vs file path are compared as
+  real paths (symlinks like `/tmp`).
 
 ## 4. Still to decide
 - [x] Options & behaviour → §2.1

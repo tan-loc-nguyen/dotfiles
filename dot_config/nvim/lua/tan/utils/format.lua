@@ -78,15 +78,17 @@ local function any_contains(bufnr, name, pattern)
 	return false
 end
 
--- A top-level "prettier" key in any package.json up to the git root. Decoded, so a
--- "prettier" entry under devDependencies doesn't count as a config.
+-- A top-level "prettier" config in any package.json up to the git root: an inline table or
+-- a shared-config package name. Decoded, so a devDependencies entry doesn't count, nor
+-- does `null`/`false` (an opt-out; null decodes to vim.NIL).
 local function package_json_has_prettier(bufnr)
 	for _, path in ipairs(find_all(bufnr, { "package.json" })) do
 		local f = io.open(path, "r")
 		if f then
 			local ok, decoded = pcall(vim.json.decode, f:read("*a"))
 			f:close()
-			if ok and type(decoded) == "table" and decoded.prettier ~= nil then
+			local value = ok and type(decoded) == "table" and decoded.prettier
+			if type(value) == "table" or type(value) == "string" then
 				return true
 			end
 		end

@@ -8,6 +8,8 @@ local cases = {
 	{ "prettier/a.ts", prettier },
 	{ "pkgprettier/a.ts", prettier }, -- "prettier" key in package.json
 	{ "pkgdep/a.ts", {} }, -- prettier only as a devDependency: not a config
+	{ "pkgnull/a.ts", {} }, -- "prettier": null is an opt-out, not a config
+	{ "pkgstring/a.ts", prettier }, -- "prettier": "<shared config package>"
 	{ "prettier/a.vue", prettier },
 	{ "biome/a.vue", {} }, -- biome only formats Vue's <script> part: not trusted with .vue
 	{ "nested/packages/a/src/a.ts", prettier }, -- config in a parent folder (monorepo)

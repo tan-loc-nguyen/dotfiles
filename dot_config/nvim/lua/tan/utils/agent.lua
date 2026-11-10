@@ -46,7 +46,12 @@ end
 -- "@<path><suffix>", the path relative to `base` when it's inside it, else absolute.
 local function format_ref(path, suffix, base)
 	if base then
-		base = vim.fs.normalize(base):gsub("/$", "") .. "/"
+		-- compare real paths: /tmp and /private/tmp are the same folder on macOS
+		local real = vim.uv.fs_realpath(path) -- drops a folder's trailing "/": add it back
+		if real then
+			path = real .. (path:sub(-1) == "/" and "/" or "")
+		end
+		base = (vim.uv.fs_realpath(base) or vim.fs.normalize(base)):gsub("/$", "") .. "/"
 		if path:sub(1, #base) == base then
 			path = path:sub(#base + 1)
 			path = path == "" and "./" or path
