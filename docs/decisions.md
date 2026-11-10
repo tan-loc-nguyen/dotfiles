@@ -268,8 +268,9 @@ Four review rounds on the finished setup. What changed, and what was deliberatel
   (email addresses, `/Users/<name>` paths) run as a pre-commit hook (`.githooks/`, wired by
   the bootstrap) and in CI over the full history. Accepted findings go in
   `.gitleaksignore` with a reason.
-- **Commits carry only the GitHub noreply address**; history was rewritten once to make
-  that true before publishing.
+- **Commits carry only the GitHub noreply address, and no AI co-author lines**; history
+  was rewritten before publishing to make that true, and to drop personal agent notes
+  (`CLAUDE.md`, `AGENTS.md`) and the migration's working documents.
 - Migration working documents (design, plan, the reference guide) stay local and aren't
   published.
 - **MIT license**, except third-party files that keep their own terms (see `LICENSE`).
