@@ -9,11 +9,14 @@ autocmd("TextYankPost", {
 	end,
 })
 
--- Cursorline only in the active window
+-- Cursorline only in the active window. Floating windows (pickers, oil float, which-key)
+-- keep whatever their plugin set.
 autocmd({ "WinEnter", "BufEnter" }, {
 	group = group,
 	callback = function()
-		vim.wo.cursorline = true
+		if vim.api.nvim_win_get_config(0).relative == "" then
+			vim.wo.cursorline = true
+		end
 	end,
 })
 autocmd("WinLeave", {

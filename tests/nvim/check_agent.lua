@@ -93,5 +93,23 @@ t.run("agent", function()
 	t.eq(calls[2], "herdr agent focus w1:p9", "idle agent: pane focused")
 	vim.env.HERDR_ENV = nil
 
+	-- the real seams never throw: herdr printing `null`, or herdr missing from PATH
+	package.loaded["tan.utils.agent"] = nil
+	local fresh = require("tan.utils.agent")
+	local bin = vim.fn.tempname()
+	vim.fn.mkdir(bin, "p")
+	vim.fn.writefile({ "#!/bin/sh", "echo null" }, bin .. "/herdr")
+	vim.fn.setfperm(bin .. "/herdr", "rwxr-xr-x")
+	local saved_path = vim.env.PATH
+	vim.env.PATH = bin .. ":/usr/bin:/bin"
+	local ok, got = pcall(fresh.list_agents)
+	t.ok(ok and type(got) == "table" and #got == 0, "list_agents: `null` output → no agents, no error")
+	vim.fn.delete(bin .. "/herdr")
+	ok, got = pcall(fresh.list_agents)
+	t.ok(ok and type(got) == "table" and #got == 0, "list_agents: herdr missing → no agents, no error")
+	ok, got = pcall(fresh.run, { "herdr", "agent", "focus", "w1:p9" })
+	t.ok(ok and got == false, "run: herdr missing → false, no error")
+	vim.env.PATH = saved_path
+
 	vim.fn.setreg("+", saved_clipboard)
 end)

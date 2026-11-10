@@ -13,6 +13,7 @@ function M.render()
 			name = "[No Name]"
 		end
 		local icon = MiniIcons.get("file", name)
+		name = name:gsub("%%", "%%%%") -- a literal % would start a tabline format code
 		local modified = vim.bo[buf].modified and "[+] " or ""
 		local hl = nr == current and "%#TanTabActive#" or "%#TanTabInactive#"
 		table.insert(parts, ("%s%%%dT %s%s %s %%T"):format(hl, nr, modified, icon, name))

@@ -288,6 +288,17 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
 - `TODO.md`: rewrite to reflect this plan (tmux/smart-splits → herdr/two-layer nav;
   markdown preview done; keep Go testing/debugger, Phase 5 training, local models).
 - Keep markdown-preview.nvim, nvim-autopairs-equivalent (guide uses mini.pairs) → mini.pairs.
+- **Second review, 2026-11-10** (you: fix in one commit). Fixed: `<leader>cf` ran every
+  formatter in the list (now `stop_after_first`, like format-on-save); `<leader>as` threw on
+  `herdr agent list` printing `null` or herdr missing from PATH (now falls back to the
+  clipboard); `%` in a file name broke the tabline (E539); the cursorline autocmd forced
+  cursorline on in floating windows; the CocoaPods PATH in `.zprofile` was decided at render
+  time with a hardcoded Ruby `4.0.0` (now a zsh glob at shell start). Left as is: biome's
+  "formatter disabled" check is one pattern (a nested object before `enabled`, or an
+  `overrides` entry, can fool it; rare, and a JSON parse costs more than it saves);
+  `lookPath "claude"` with `~/.local/bin` off PATH only costs one harmless re-run; `.zshrc`
+  tools are unguarded but herdr (`shell_mode = "auto"`) and Ghostty both start login shells.
+  Rejected: "visual `<leader>cf` formats the whole buffer" (conform uses the selection itself).
 
 ## 4. Still to decide
 - [x] Options & behaviour → §2.1

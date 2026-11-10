@@ -106,7 +106,12 @@ local manual_formatters = {
 map({ "n", "x" }, "<leader>cf", function()
 	local declared = require("tan.utils.format").formatters_for(0)
 	local formatters = #declared > 0 and declared or manual_formatters[vim.bo.filetype]
-	require("conform").format({ formatters = formatters, lsp_format = "fallback", timeout_ms = 1000 })
+	require("conform").format({
+		formatters = formatters,
+		stop_after_first = true, -- the list is "first available wins", like format-on-save
+		lsp_format = "fallback",
+		timeout_ms = 1000,
+	})
 end, { desc = "Format" })
 
 -- Agent context: <leader>y* puts text on the clipboard, <leader>a* acts on an agent

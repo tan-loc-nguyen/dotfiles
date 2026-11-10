@@ -54,14 +54,22 @@ function M.yank(opts)
 end
 
 -- Seams (replaced in tests): run a herdr command, list agents, choose one.
+-- vim.system throws when the binary is missing (e.g. HERDR_ENV set but herdr not on PATH).
+local function system(args)
+	local ok, out = pcall(function()
+		return vim.system(args, { text = true }):wait()
+	end)
+	return ok and out or { code = -1, stdout = "" }
+end
+
 function M.run(args)
-	return vim.system(args, { text = true }):wait().code == 0
+	return system(args).code == 0
 end
 
 function M.list_agents()
-	local out = vim.system({ "herdr", "agent", "list" }, { text = true }):wait()
-	local ok, decoded = pcall(vim.json.decode, out.stdout or "")
-	return ok and decoded.result and decoded.result.agents or {}
+	local ok, decoded = pcall(vim.json.decode, system({ "herdr", "agent", "list" }).stdout or "")
+	local result = ok and type(decoded) == "table" and decoded.result -- `null` decodes to vim.NIL
+	return type(result) == "table" and type(result.agents) == "table" and result.agents or {}
 end
 
 M.select = vim.ui.select

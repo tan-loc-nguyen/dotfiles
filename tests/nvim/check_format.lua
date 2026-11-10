@@ -39,4 +39,15 @@ t.run("format", function()
 	vim.cmd.edit(dir .. "none/a.ts")
 	t.eq(#require("conform").list_formatters_to_run(0), 0, "conform runs nothing for none/a.ts")
 	t.ok(vim.fn.maparg("<leader>cf", "n") ~= "", "<leader>cf manual format exists")
+
+	-- <leader>cf runs only the first available formatter of the list (prettierd OR prettier)
+	local conform = require("conform")
+	local real_format, seen = conform.format, nil
+	conform.format = function(opts)
+		seen = opts
+	end
+	vim.cmd.edit(dir .. "prettier/a.ts")
+	vim.api.nvim_feedkeys(vim.keycode("<leader>cf"), "x", false)
+	conform.format = real_format
+	t.eq(seen and seen.stop_after_first, true, "<leader>cf stops after the first formatter")
 end)

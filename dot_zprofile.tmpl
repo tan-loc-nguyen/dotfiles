@@ -12,9 +12,9 @@ export PATH="$HOME/.local/bin:$PATH"
 {{- if stat (joinPath .chezmoi.homeDir ".docker/bin") }}
 export PATH="$HOME/.docker/bin:$PATH"                         # Docker Desktop CLI
 {{- end }}
-{{- if stat "/opt/homebrew/lib/ruby/gems/4.0.0/bin" }}
-export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"     # CocoaPods (gem on Homebrew Ruby)
-{{- end }}
+# CocoaPods (gem on Homebrew Ruby). Found when the shell starts, so it works on the first
+# login after bootstrap installs ruby, and after Ruby version bumps. (N) = skip if none.
+for d in /opt/homebrew/lib/ruby/gems/*/bin(N); do export PATH="$d:$PATH"; done
 {{- if stat (joinPath .chezmoi.homeDir "Library/Android/sdk") }}
 
 # Android SDK

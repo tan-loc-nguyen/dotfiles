@@ -31,4 +31,10 @@ check "beginning-of-line" "Home key"
 check "end-of-line" "End key"
 check "stab:.*autosuggest-accept" "Shift+Tab accepts the suggestion"
 check "tab:.*fzf-completion" "Tab still completes (fzf-completion)"
+# Ruby gems PATH is found when the shell starts (not when chezmoi renders), any Ruby version
+if grep -q "gems/\*/bin" "$tmp/.zprofile" && ! grep -q "gems/[0-9]" "$tmp/.zprofile"; then
+	echo "ok   ruby gems PATH found at shell start, any version"
+else
+	echo "FAIL ruby gems PATH found at shell start, any version"; fail=1
+fi
 exit $fail
