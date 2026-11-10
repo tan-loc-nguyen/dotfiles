@@ -1,5 +1,6 @@
 # Repo-only files: never placed in $HOME
 README.md
+LICENSE
 Brewfile
 docs
 tests

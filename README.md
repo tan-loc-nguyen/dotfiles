@@ -1,87 +1,120 @@
 # dotfiles
 
-macOS (Apple Silicon) dev setup, managed by [chezmoi](https://chezmoi.io): Ghostty → herdr →
-Neovim + coding agents (Claude Code). Every decision and its reason is in
-[`docs/decisions.md`](docs/decisions.md).
+A macOS terminal setup built around **reviewing what coding agents write**: Ghostty → herdr
+→ Neovim 0.12 next to Claude Code (or OpenCode), managed with [chezmoi](https://chezmoi.io).
 
-## New machine
+<!-- screenshot: docs/images/setup.png (Ghostty + herdr: Neovim beside an agent pane) -->
+
+> [!NOTE]
+> This is my personal setup, shared to read and borrow from. Don't apply it blindly:
+> `chezmoi apply` replaces your `~/.zshrc`, `~/.zprofile`, `~/.gitconfig` and several
+> `~/.config` folders. Every choice and its reason is in [`docs/decisions.md`](docs/decisions.md).
+
+## What makes it different
+
+- **Agents live in herdr panes.** Sessions survive closing the terminal, and a macOS
+  notification fires when an agent finishes or is waiting for approval, so you don't
+  have to keep checking panes.
+- **Review is a git loop.** The agent writes freely; you walk its hunks in Neovim and
+  **stage to accept, reset to reject** (`]h`, `<leader>gs`, `<leader>gr`), or open every
+  change side by side in a CodeDiff tab (`<leader>gd`). Only what you staged gets committed.
+- **Pointing beats describing.** `<leader>as` sends `@src/api.ts#L12-20` for the current
+  line or selection straight into a chosen agent's prompt, relative to that agent's folder.
+  It never presses Enter, and won't type into an agent that's blocked on a prompt.
+- **Formatting follows the project.** Format-on-save only runs the formatter a repo
+  declares (oxfmt, biome, prettier, ruff…), so repos that don't format are never rewritten.
+- **Neovim 0.12 built-ins first**: `vim.pack`, ui2, `vim.lsp.enable` with `after/lsp/`.
+  No lazy.nvim, no distribution.
+- **Tested and guarded.** A headless test suite covers the Neovim config, shell and
+  bootstrap; a gitleaks pre-commit hook and CI keep secrets and personal data out.
+
+## What's inside
+
+| Path | What |
+|---|---|
+| `dot_config/nvim/` | Neovim config: `lua/tan/{config,plugins,utils}`, per-server settings in `after/lsp/` |
+| `dot_config/herdr/` | herdr: prefix `ctrl+space`, system notifications |
+| `dot_config/ghostty/` | Ghostty: Catppuccin Mocha, JetBrains Mono Nerd Font, optional shaders |
+| `dot_config/git/`, `dot_gitconfig.tmpl` | Git: identity prompted per machine, delta pager, nvimdiff |
+| `dot_zshrc`, `dot_zprofile.tmpl` | Plain zsh (no framework): completion menu, shared history, autosuggestions, syntax highlighting |
+| `dot_config/starship.toml`, `dot_config/mise/` | Prompt and runtimes (node, go, python, …) |
+| `Brewfile`, `run_onchange_bootstrap.sh.tmpl` | CLI tools and the one-shot machine bootstrap |
+| `tests/` | Headless checks for everything above |
+| `docs/` | Decision log and roadmap |
+
+Tools come from three places: **brew** for CLI tools, **mise** for runtimes, **Mason**
+(inside Neovim) for language servers and formatters.
+
+## Install on a new Mac
 
 ```sh
-# 1. Homebrew, then put it on PATH for this shell (Apple Silicon installs to /opt/homebrew)
+# 1. Homebrew, then put it on PATH for this shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install chezmoi git
 
-# 2. Clone to the expected place and apply (asks once for git name / email / GitHub user)
+# 2. Clone and apply (asks once for your git name, email and GitHub user)
 git clone https://github.com/tan-loc-nguyen/dotfiles ~/Workspace/dotfiles
 chezmoi init --source ~/Workspace/dotfiles --apply
 
-# 3. Runtimes, in a new login shell so the new ~/.zprofile and mise are active.
-#    Mason needs node/npm and go to install most language servers.
+# 3. Runtimes, in a new login shell (Mason needs node and go for most language servers)
 exec zsh -l
 mise install
 
-# 4. Open nvim once: plugins, parsers and language servers install themselves
+# 4. Open Neovim once: plugins, parsers and language servers install themselves
 nvim
 ```
 
-`chezmoi apply` runs one script, `run_onchange_bootstrap.sh.tmpl`, top to bottom:
-1. Homebrew (if missing) + `brew bundle --no-upgrade` — installs what's missing, never upgrades
-   (run `brew upgrade` yourself)
-2. Claude Code native installer, if `claude` is missing
-3. `herdr integration install` for each agent CLI present (claude, opencode)
+`chezmoi apply` runs one bootstrap script. Every step skips work that's already done, and
+it re-runs by itself when the script, the Brewfile or the installed agent CLIs change:
+1. Homebrew + `brew bundle --no-upgrade` (installs what's missing, never upgrades).
+2. Claude Code's native installer, if `claude` is missing.
+3. herdr's agent integrations, for each agent CLI present (claude, opencode).
+4. This repo's pre-commit hook (`git config core.hooksPath .githooks`).
 
-Every step skips work already done. It re-runs automatically when the script, the Brewfile,
-or the installed agent CLIs change.
+Then turn off macOS's ⌃Space shortcut, which herdr uses as its prefix: System Settings →
+Keyboard → Keyboard Shortcuts → Input Sources → untick **Select the previous input source**.
 
-Then do by hand:
-- System Settings → Keyboard → Keyboard Shortcuts → Input Sources → untick
-  **"Select the previous input source" (⌃Space)** — herdr's prefix is `ctrl+space`.
+## Living with it
 
-## Daily rules
-- **Edit config in place** (`~/.config/...`) — plain files are symlinks into this repo.
-  Exceptions are copies rendered by chezmoi; edit them **in the repo**, then `chezmoi apply`:
-  `~/.gitconfig` and `~/.zprofile` (templates).
-- **New config files**: create them in the repo (then `chezmoi apply`), or `chezmoi add` them —
-  a new file under `~/.config` isn't in the repo by itself.
-- **Where tools come from**: brew = CLI tools (`Brewfile`) · mise = runtimes · Mason (inside
-  nvim) = language servers + formatters.
-- Not tracked on purpose: everything in `~/.claude` — `CLAUDE.md` and `statusline.sh` are
-  per-machine and `settings.json` is rewritten by Claude Code and herdr; also
-  `nvim-pack-lock.json` (plugins float per machine).
-- **This repo is public.** A pre-commit hook (`.githooks/`, wired by the bootstrap) runs
-  gitleaks with `.gitleaks.toml`: it blocks secrets, email addresses and `/Users/<name>`
-  paths (write `~` or `$HOME`). CI scans the full history on every push. An accepted false
-  positive goes in `.gitleaksignore` with a comment saying why.
+- **Edit config in place.** Files under `~/.config` are symlinks into this repo. The
+  exceptions are templates, rendered as copies: `~/.gitconfig` and `~/.zprofile`. Edit
+  those in the repo, then `chezmoi apply`.
+- **New config files** go in the repo (then `chezmoi apply`), or `chezmoi add` them; a new
+  file under `~/.config` isn't in the repo by itself.
+- **Not tracked on purpose**: anything in `~/.claude` (Claude Code and herdr rewrite
+  `settings.json`), and Neovim's `nvim-pack-lock.json` (plugin versions float per machine).
+- **Before every commit**, the hook runs gitleaks with `.gitleaks.toml`: secrets, email
+  addresses and `/Users/<name>` paths are refused (write `~` or `$HOME`). CI scans the full
+  history on every push.
 
 ## Keys
 
-**zsh**: `Shift+Tab` (or `→`) accepts the faded history suggestion · `Tab` completes (`**<Tab>` = fzf picker, e.g. `nvim **<Tab>`).
+**zsh**: `Shift+Tab` (or `→`) accepts the faded suggestion · `Tab` completes ·
+`**<Tab>` fuzzy-picks a path · `⌃R` searches history.
 
-**herdr** (prefix `ctrl+space`): `prefix h/j/k/l` move between panes · `prefix v` / `prefix -`
-split · `prefix b` sidebar · `prefix q` detach (`herdr` reattaches) · `prefix ?` help.
+**herdr** (prefix `ctrl+space`): `h/j/k/l` move between panes · `v` / `-` split · `z` zoom ·
+`c` new tab · `shift+n` new workspace · `shift+g` new worktree · `o` jump to the
+notification · `b` sidebar · `q` detach (`herdr` reattaches) · `?` help.
 
-**Neovim** (leader = Space):
+**Neovim** (leader = Space; press it and wait for which-key):
 
 | Area | Keys |
 |---|---|
-| Find | `<leader>ff` files · `fg` grep (capital = incl. ignored) · `fb` buffers · `fh` help · `fd` diagnostics · `fs`/`fS` symbols · `<C-p>` / Cmd+P |
+| Find | `<leader>ff` files · `fg` grep (capital = incl. ignored) · `fb` buffers · `fh` help · `fd` diagnostics · `fs`/`fS` symbols · `<C-p>` |
 | Buffers | `<Tab>`/`<S-Tab>` cycle · `<leader>bd` close · `<leader>bh` close hidden · `<C-n>` jump forward |
 | Windows | `ss`/`sv` split · `sh sj sk sl` move · `te` new tab (`gt`/`gT`) |
 | Files | `-` oil here · `sf` oil float (`q` closes) |
-| Git review | `]h`/`[h` hunks · `<leader>gs` stage (accept) · `gr` reset (reject) · `gp` preview · `gS`/`gR` buffer · `gb` blame · `gd` CodeDiff tab · `gh`/`gH` history · `gg` lazygit · `gf` file log |
+| Review | `]h`/`[h` hunks · `<leader>gs` stage (accept) · `gr` reset (reject) · `gp` preview · `gS`/`gR` whole file · `gb` blame · `gd` CodeDiff tab · `gh`/`gH` history · `gg` lazygit · `gf` file log |
 | Code | `gd` `gD` `grr` `gri` `grt` · `K` · `<C-k>` signature · `<leader>cr` rename · `ca` action · `cf` format · `ci` inlay hints · `cd` line diagnostics · `]d` `]e` `]w` |
-| Agents | `<leader>yf` copy `@path#L12-20` (normal/visual/oil) · `yp` absolute · `<leader>as` send to a herdr agent (no Enter; refuses a blocked agent) |
-| Editing | `x` no-copy delete · `<leader>p` paste last yank · `<C-a>` select all · `:W` save without formatting |
-
-Format on save only runs when the project declares a formatter (oxfmt / biome / prettier /
-ruff / editorconfig for shfmt / stylua); Go always uses goimports.
+| Agents | `<leader>yf` copy `@path#L12-20` (normal / visual / oil) · `yp` absolute · `<leader>as` send to a herdr agent |
+| Editing | `x` deletes without copying · `<leader>p` pastes the last yank · `<C-a>` select all · `:W` save without formatting |
 
 ## Tests
 
 ```sh
-tests/run.sh               # everything below; exits non-zero if any check fails
-tests/run.sh --cold        # same, with Neovim on fresh data dirs (slow: simulates a new machine)
+tests/run.sh          # every check; exits non-zero if any fails
+tests/run.sh --cold   # same, with Neovim on fresh data dirs (slow: simulates a new machine)
 ```
 
 | Check | Covers |
@@ -91,6 +124,15 @@ tests/run.sh --cold        # same, with Neovim on fresh data dirs (slow: simulat
 | `tests/shell/check_bootstrap.sh` | the bootstrap renders, passes shellcheck, never upgrades brew packages |
 | `tests/shell/check_secrets.sh` | the pre-commit hook blocks secrets and personal data; history is clean |
 
-## Restore the pre-chezmoi setup
-A snapshot taken before the migration is in `~/.dotfiles-backup/2026-11-08/` (on the original
-machine) with `RESTORE.md`; repo files are in the `main` history.
+## Credits
+
+- [craftzdog's dotfiles](https://github.com/craftzdog/dotfiles): the reference this setup
+  started from (vim.pack layout, herdr, chezmoi structure).
+- [herdr](https://github.com/herdrdev/herdr), [codediff.nvim](https://github.com/esmuellert/codediff.nvim),
+  [snacks.nvim](https://github.com/folke/snacks.nvim), [Catppuccin](https://github.com/catppuccin/nvim)
+  and the other plugins in `dot_config/nvim/lua/tan/plugins/init.lua`.
+- Ghostty shaders: see `LICENSE` for their authors and terms.
+
+## License
+
+[MIT](LICENSE), except the third-party files listed in it.
