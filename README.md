@@ -3,7 +3,7 @@
 A macOS terminal setup built around **reviewing what coding agents write**: Ghostty → herdr
 → Neovim 0.12 next to Claude Code (or OpenCode), managed with [chezmoi](https://chezmoi.io).
 
-<!-- screenshot: docs/images/setup.png (Ghostty + herdr: Neovim beside an agent pane) -->
+![Ghostty + herdr: Neovim sending a code reference to one of several Claude Code agents](docs/images/setup.png)
 
 > [!NOTE]
 > This is my personal setup, shared to read and borrow from. Don't apply it blindly:
