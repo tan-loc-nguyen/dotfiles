@@ -323,6 +323,12 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
   public, so secret scanning is strict: gitleaks pre-commit hook + full-history CI, with extra
   rules for email addresses and `/Users/<name>` paths. One `tests/run.sh` runs every check.
   Ghostty shaders kept (you). A `~/.zshrc.local` override is skipped for now (you).
+- **History rewritten, 2026-11-10** (you: "rewrite history"). `git filter-repo`: every
+  author/committer email → the GitHub noreply address (work, personal and laptop-hostname
+  addresses were in 74 commits); the old statusline's `/Users/<name>/` path → `$HOME/`.
+  Commit IDs changed; `main` and this branch were force-pushed with a lease. This clone's
+  `user.email` is set to the noreply address. Backup of the old history:
+  `~/.dotfiles-backup/2026-11-10-pre-history-rewrite/` (with `RESTORE.md`).
 
 ## 4. Still to decide
 - [x] Options & behaviour → §2.1
