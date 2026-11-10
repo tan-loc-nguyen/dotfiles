@@ -4,7 +4,7 @@ The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done 
 `docs/decisions.md` for every choice and `README.md` for the key reference.
 
 ## Next projects
-- [ ] Local models: Ollama + OpenCode (48 GB M5 Pro → ~30B-class quantized models)
+- [ ] Local models: Ollama + OpenCode (~30B-class quantized models)
   - [ ] Check whether OpenCode understands `@path#L12-20` references (`<leader>yf` / `<leader>as`)
   - [ ] Decide on AI inline completion in the editor (local model vs none)
 - [ ] Ghostty Cmd-key → herdr action mappings (e.g. `Cmd+D` split) — deferred
@@ -26,7 +26,7 @@ The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done 
 - Telescope bounded search / fzf-lua → snacks picker (`<leader>f*`; capitals include ignored files)
 
 ## Done
-- [x] chezmoi-managed dotfiles (symlink mode), fresh-machine bootstrap scripts
+- [x] chezmoi-managed dotfiles (symlink mode), a fresh-machine bootstrap script
 - [x] herdr: persistent sessions + agent blocked/done notifications
 - [x] Plain zsh (no oh-my-zsh), autosuggestions, syntax highlighting, `EDITOR=nvim`
 - [x] Git: templated identity, delta pager, nvimdiff diff/merge tool
@@ -37,4 +37,4 @@ The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done 
 - [x] Statusline (lualine), tabline, incline labels, snacks statuscolumn
 - [x] Per-project format-on-save policy; JSON/YAML schema validation
 - [x] Agent reference copy (`<leader>yf`) and send-to-agent (`<leader>as`)
-- [x] Headless test suite for the Neovim config (`tests/nvim/run.sh`)
+- [x] Test suite (`tests/run.sh`) and a secret / personal-data guard

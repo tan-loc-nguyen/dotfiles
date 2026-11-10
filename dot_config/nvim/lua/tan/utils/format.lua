@@ -1,4 +1,4 @@
--- Which formatter runs on save, decided per project (spec §5.4):
+-- Which formatter runs on save, decided per project (decision log §3.7):
 --   * Go always uses goimports (gofmt style is universal Go convention).
 --   * Everything else formats ONLY if the project declares that formatter's config.
 --     No declared formatter → nothing runs, so files in repos that don't format are never

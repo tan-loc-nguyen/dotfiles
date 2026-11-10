@@ -1,4 +1,4 @@
--- Format-on-save policy (spec §5.4): use only the formatter a project declares; Go always
+-- Format-on-save policy (decision log §3.7): use only the formatter a project declares; Go always
 -- uses goimports; no declared formatter → nothing runs on save.
 local t = dofile(vim.env.TESTS_DIR .. "/helpers.lua")
 local dir = vim.env.TESTS_DIR .. "/fixtures/format/"

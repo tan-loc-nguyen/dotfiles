@@ -2,3 +2,6 @@
 .superpowers/
 # vim.pack lockfile written when tests run nvim against the repo (machine-local by decision)
 dot_config/nvim/nvim-pack-lock.json
+
+# Migration working documents: kept locally, not published
+docs/archive/
