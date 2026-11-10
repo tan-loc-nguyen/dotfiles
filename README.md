@@ -80,11 +80,16 @@ ruff / editorconfig for shfmt / stylua); Go always uses goimports.
 ## Tests
 
 ```sh
-tests/nvim/run.sh          # headless checks: startup, keymaps, LSP, formatting, parsers, agent helpers
-tests/nvim/run.sh --cold   # same on fresh data dirs (simulates a new machine; skips LSP)
-tests/shell/check_zsh.sh   # interactive zsh keeps emacs keys, comments, Delete/Home/End
-tests/shell/check_bootstrap.sh  # run_ scripts render + shellcheck; brew never upgrades
+tests/run.sh               # everything below; exits non-zero if any check fails
+tests/run.sh --cold        # same, with Neovim on fresh data dirs (slow: simulates a new machine)
 ```
+
+| Check | Covers |
+|---|---|
+| `tests/nvim/run.sh` | headless Neovim: startup, keymaps, LSP, formatting, parsers, agent helpers, UI |
+| `tests/shell/check_zsh.sh` | interactive zsh: emacs keys, comments, Delete/Home/End, PATH, Ruby gems |
+| `tests/shell/check_bootstrap.sh` | the bootstrap renders, passes shellcheck, never upgrades brew packages |
+| `tests/shell/check_secrets.sh` | the pre-commit hook blocks secrets and personal data; history is clean |
 
 ## Restore the pre-chezmoi setup
 A snapshot taken before the migration is in `~/.dotfiles-backup/2026-11-08/` (on the original
