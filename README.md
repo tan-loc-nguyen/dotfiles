@@ -12,21 +12,12 @@ A macOS terminal setup built around **reviewing what coding agents write**: Ghos
 
 ## What makes it different
 
-- **Agents live in herdr panes.** Sessions survive closing the terminal, and a macOS
-  notification fires when an agent finishes or is waiting for approval, so you don't
-  have to keep checking panes.
-- **Review is a git loop.** The agent writes freely; you walk its hunks in Neovim and
-  **stage to accept, reset to reject** (`]h`, `<leader>gs`, `<leader>gr`), or open every
-  change side by side in a CodeDiff tab (`<leader>gd`). Only what you staged gets committed.
-- **Pointing beats describing.** `<leader>as` sends `@src/api.ts#L12-20` for the current
-  line or selection straight into a chosen agent's prompt, relative to that agent's folder.
-  It never presses Enter, and won't type into an agent that's blocked on a prompt.
-- **Formatting follows the project.** Format-on-save only runs the formatter a repo
-  declares (oxfmt, biome, prettier, ruff…), so repos that don't format are never rewritten.
-- **Neovim 0.12 built-ins first**: `vim.pack`, ui2, `vim.lsp.enable` with `after/lsp/`.
-  No lazy.nvim, no distribution.
-- **Tested and guarded.** A headless test suite covers the Neovim config, shell and
-  bootstrap; a gitleaks pre-commit hook and CI keep secrets and personal data out.
+- **Agents live in herdr panes**: sessions survive closing the terminal, and you get a notification when one finishes or needs you.
+- **Review is a git loop**: walk the agent's hunks in Neovim, stage to accept, reset to reject (`]h`, `<leader>gs`, `<leader>gr`, `<leader>gd`).
+- **Point, don't describe**: `<leader>as` types `@src/api.ts#L12-20` into the agent you pick, never pressing Enter for you.
+- **Formatting follows the project**: format-on-save runs only the formatter a repo declares, so nothing else gets rewritten.
+- **Neovim 0.12 built-ins first**: `vim.pack`, ui2 and `vim.lsp.enable`, with no plugin manager or distribution.
+- **Tested and guarded**: a headless test suite covers the config, and a gitleaks hook plus CI keep secrets out.
 
 ## What's inside
 
@@ -123,6 +114,14 @@ tests/run.sh --cold   # same, with Neovim on fresh data dirs (slow: simulates a 
 | `tests/shell/check_zsh.sh` | interactive zsh: emacs keys, comments, Delete/Home/End, PATH, Ruby gems |
 | `tests/shell/check_bootstrap.sh` | the bootstrap renders, passes shellcheck, never upgrades brew packages |
 | `tests/shell/check_secrets.sh` | the pre-commit hook blocks secrets and personal data; history is clean |
+
+## Roadmap
+
+- [ ] Local models: Ollama + OpenCode, including whether OpenCode understands `@path#L12-20` references
+- [ ] AI inline completion in the editor (local model or none)
+- [ ] Ghostty Cmd-key shortcuts for herdr actions (e.g. `Cmd+D` to split)
+- [ ] Try tsgo, the native TypeScript 7 language server
+- [ ] Linux support (common distros): package installs beyond Homebrew, OS checks in the templates
 
 ## Credits
 

@@ -9,6 +9,7 @@ The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done 
   - [ ] Decide on AI inline completion in the editor (local model vs none)
 - [ ] Ghostty Cmd-key → herdr action mappings (e.g. `Cmd+D` split) — deferred
 - [ ] Try tsgo (TypeScript 7 native server) once projects move to TS 7
+- [ ] Linux support (common distros): a package step beyond Homebrew (apt/dnf/pacman), `.chezmoi.os` checks in the templates and bootstrap, Linux paths in `.zprofile`
 
 ## Language polish
 - [ ] Go: testing workflow
