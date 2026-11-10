@@ -1,14 +1,14 @@
 # Agentic Setup — Decision Log
 
 Running record of decisions made while migrating to a new Neovim + terminal setup,
-loosely based on `docs/agentic-setup/guidelines.md` (craftzdog's setup). We do
+loosely based on `docs/archive/agentic-coding-setup-migration-2026-11-08/guidelines.md` (craftzdog's setup). We do
 **not** copy the guide wholesale — each item is chosen deliberately.
 
 - Branch: `feat/agentic-coding-setup`
 - Started: 2026-11-07
 - Status: **implemented** on `feat/agentic-coding-setup` (2026-11-08). Design:
-  `docs/superpowers/specs/2026-11-08-agentic-setup-design.md`; plan:
-  `docs/superpowers/plans/2026-11-08-agentic-setup.md`. Implementation-time choices
+  `docs/archive/agentic-coding-setup-migration-2026-11-08/design.md`; plan:
+  `docs/archive/agentic-coding-setup-migration-2026-11-08/plan.md`. Implementation-time choices
   (builder rulings) are listed in the PR description.
 
 Legend: **(you)** = your decision · **(rec)** = Claude's recommendation you accepted ·
@@ -317,6 +317,12 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
   number: `(NnOn[1])`); the gems test only grepped text (now runs the real line against a
   fake gems folder, and checks a clean login shell); agent cwd vs file path are compared as
   real paths (symlinks like `/tmp`).
+- **Repo structure review, 2026-11-10** (you). Compared with craftzdog's layout: same chezmoi
+  shape, kept. `docs/` flattened: this log is `docs/decisions.md`; the finished guide, design
+  and plan sit together in `docs/archive/agentic-coding-setup-migration-2026-11-08/`. Repo goes
+  public, so secret scanning is strict: gitleaks pre-commit hook + full-history CI, with extra
+  rules for email addresses and `/Users/<name>` paths. One `tests/run.sh` runs every check.
+  Ghostty shaders kept (you). A `~/.zshrc.local` override is skipped for now (you).
 
 ## 4. Still to decide
 - [x] Options & behaviour → §2.1
@@ -327,7 +333,7 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
 - [ ] Concrete Brewfile / `.zshrc` / `.zprofile` / gitconfig changes
 - [x] Agent notifications, per-language format policy, agent CLI install, statusline
       bootstrap, symlink shape, no auto-deletes → design doc §5.4
-- Design doc: `docs/superpowers/specs/2026-11-08-agentic-setup-design.md` (awaiting approval)
+- Design doc: `docs/archive/agentic-coding-setup-migration-2026-11-08/design.md` (approved, implemented)
 - [ ] Ghostty Cmd-key mappings to herdr (deferred)
 - [ ] Old `TODO.md` reconciliation (smart-splits → dropped; tmux → herdr; markdown preview done)
 - [ ] Project 2: local models (Ollama + OpenCode)
@@ -342,9 +348,7 @@ Carry these into the migration rather than fixing on the old config:
 - `~/.gitconfig`, `~/.config/git/ignore` untracked; stale Fig files in `~/.config/fish/conf.d`.
 
 ## 6. References
-- Guide: `docs/agentic-setup/guidelines.md`; source: https://github.com/craftzdog/dotfiles
+- Guide: `docs/archive/agentic-coding-setup-migration-2026-11-08/guidelines.md`; source: https://github.com/craftzdog/dotfiles
 - herdr: https://github.com/herdrdev/herdr · https://herdr.dev/docs/
 - codediff.nvim: https://github.com/esmuellert/codediff.nvim
 - Claude Code terminal config (tmux notes): https://code.claude.com/docs/en/terminal-config
-- Scratch clones (throwaway, safe to delete):
-  `/private/tmp/claude-501/-Users-tan-nguyen-Workspace-dotfiles/bc58472c-f505-4aa9-a926-47bbbc4ca131/scratchpad/repos/`

@@ -1,7 +1,7 @@
 # Dev Setup Roadmap
 
 The 2026-11 agentic-setup migration (chezmoi + herdr + vim.pack Neovim) is done — see
-`docs/agentic-setup/decisions.md` for every choice and `README.md` for the key reference.
+`docs/decisions.md` for every choice and `README.md` for the key reference.
 
 ## Next projects
 - [ ] Local models: Ollama + OpenCode (48 GB M5 Pro → ~30B-class quantized models)

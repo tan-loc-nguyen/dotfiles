@@ -2,7 +2,7 @@
 
 macOS (Apple Silicon) dev setup, managed by [chezmoi](https://chezmoi.io): Ghostty → herdr →
 Neovim + coding agents (Claude Code). Every decision and its reason is in
-[`docs/agentic-setup/decisions.md`](docs/agentic-setup/decisions.md).
+[`docs/decisions.md`](docs/decisions.md).
 
 ## New machine
 

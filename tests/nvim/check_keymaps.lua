@@ -1,4 +1,4 @@
--- Every key decided in docs/agentic-setup/decisions.md §3 must exist (global keymaps only;
+-- Every key decided in docs/decisions.md §3 must exist (global keymaps only;
 -- LSP keys are buffer-local and are checked in check_lsp.lua). Built-in gr* keys must not be
 -- shadowed by a bare `gr`.
 local t = dofile(vim.env.TESTS_DIR .. "/helpers.lua")
