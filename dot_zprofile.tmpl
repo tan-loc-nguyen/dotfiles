@@ -1,0 +1,29 @@
+# Rendered by chezmoi from dot_zprofile.tmpl — edit the repo file, then `chezmoi apply`.
+# Machine-specific PATHs are only written on machines where the folder exists.
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+
+export EDITOR=nvim
+export VISUAL=nvim
+
+# PATH. -U keeps entries unique (a shell started from another shell re-adds them all); it
+# only works on assignments to the `path` array, so add entries as path=(new $path).
+typeset -U path
+path=("$HOME/.local/bin" $path)
+{{- if stat (joinPath .chezmoi.homeDir ".docker/bin") }}
+path=("$HOME/.docker/bin" $path) # Docker Desktop CLI
+{{- end }}
+# CocoaPods (gem on Homebrew Ruby). Found when the shell starts, so it works on the first
+# login after bootstrap installs ruby, and after Ruby version bumps. Glob flags: N = skip if
+# none, nOn[1] = only the newest version by number (old gems don't run on a new Ruby).
+path=(/opt/homebrew/lib/ruby/gems/*/bin(NnOn[1]) $path)
+{{- if stat (joinPath .chezmoi.homeDir "Library/Android/sdk") }}
+
+# Android SDK
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+path=("$ANDROID_HOME/emulator" "$ANDROID_HOME/platform-tools" $path)
+{{- end }}
+
+# Claude Code
+export CLAUDE_CODE_NO_FLICKER=1

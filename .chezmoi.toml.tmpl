@@ -1,0 +1,16 @@
+{{- /* Asked once per machine, then stored in ~/.config/chezmoi/chezmoi.toml */ -}}
+{{- $name := promptStringOnce . "name" "Git author name" -}}
+{{- $email := promptStringOnce . "email" "Git email (work or personal for this machine)" -}}
+{{- $githubUser := promptStringOnce . "githubUser" "GitHub username" -}}
+
+# Keep the source repo where it already lives instead of ~/.local/share/chezmoi.
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+# Plain files become symlinks into this repo, so editing ~/.config/... edits the repo.
+# Templates (*.tmpl) and executable_ files are still rendered/copied.
+mode = "symlink"
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    githubUser = {{ $githubUser | quote }}

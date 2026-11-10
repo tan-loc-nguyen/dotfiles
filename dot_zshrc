@@ -1,0 +1,45 @@
+# Plain zsh (replaces oh-my-zsh, whose git aliases were never used).
+
+### Line editing: emacs keys (zsh picks vi-mode when EDITOR contains "vi", and EDITOR=nvim),
+### allow `# comments` in typed/pasted commands, and make Delete/Home/End work.
+bindkey -e
+setopt interactive_comments
+bindkey '^[[3~' delete-char
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+
+### Completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+
+### History: large, shared across terminals, no duplicates
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+setopt share_history hist_ignore_all_dups hist_reduce_blanks
+
+### Type `git`, press Up/Down: walk only earlier `git ...` commands
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search
+
+### Typing a directory name cd's into it
+setopt auto_cd
+
+### Tools
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+source <(fzf --zsh)
+eval "$(mise activate zsh)"
+
+### Plugins (Homebrew). syntax-highlighting must be sourced last.
+source "${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Shift+Tab accepts the faded suggestion (Tab stays normal/fzf completion; Right arrow also accepts)
+bindkey "^[[Z" autosuggest-accept
+source "${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+alias ll='ls -lah'

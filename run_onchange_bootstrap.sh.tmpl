@@ -1,0 +1,37 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# Machine bootstrap, run by `chezmoi apply`. Every step skips work that's already done, so
+# re-running the whole script is cheap. chezmoi re-runs it whenever this rendered text
+# changes, i.e. when the script itself, the Brewfile, or the installed agent CLIs change:
+#   Brewfile hash: {{ include "Brewfile" | sha256sum }}
+#   claude:   {{ lookPath "claude" }}
+#   opencode: {{ lookPath "opencode" }}
+set -euo pipefail
+export PATH="$HOME/.local/bin:$PATH" # where Claude Code's native installer puts `claude`
+
+# 1. Homebrew + Brewfile. --no-upgrade: install what's missing, never upgrade (e.g. Neovim)
+#    behind your back.
+if ! command -v brew >/dev/null 2>&1 && [ ! -x /opt/homebrew/bin/brew ]; then
+	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew bundle --no-upgrade --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+
+# 2. Claude Code via its native installer (it updates itself afterwards).
+if ! command -v claude >/dev/null 2>&1; then
+	curl -fsSL https://claude.ai/install.sh | bash
+fi
+
+# 3. herdr agent-state hooks (tell herdr when an agent is working / blocked / done) for every
+#    agent CLI present. Needs herdr (step 1) and the agents (step 2).
+#    Capture status first: piping into `grep -q` would SIGPIPE herdr and fail under pipefail.
+status="$(herdr integration status 2>&1)"
+for agent in claude opencode; do
+	command -v "$agent" >/dev/null 2>&1 || continue
+	grep -q "^$agent: current" <<<"$status" && continue
+	herdr integration install "$agent"
+done
+
+# 4. This repo's pre-commit hook: blocks secrets and personal data (.githooks/, .gitleaks.toml).
+git -C {{ .chezmoi.sourceDir | quote }} config core.hooksPath .githooks
+{{ end -}}

@@ -1,0 +1,8 @@
+#!/bin/sh
+# Block commits that add secrets or personal data (rules: .gitleaks.toml). Wired up by
+# run_onchange_bootstrap.sh.tmpl (git config core.hooksPath .githooks).
+if ! command -v gitleaks >/dev/null 2>&1; then
+	echo "pre-commit: gitleaks is not installed (brew install gitleaks); refusing to commit." >&2
+	exit 1
+fi
+exec gitleaks git --pre-commit --staged --redact --no-banner --config "$(git rev-parse --show-toplevel)/.gitleaks.toml"
