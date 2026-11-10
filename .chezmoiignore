@@ -4,8 +4,7 @@ Brewfile
 docs
 tests
 
-# Neovim plugin lockfiles stay machine-local (decision: don't track nvim-pack-lock.json)
+# Neovim plugin lockfile stays machine-local (decision: don't track nvim-pack-lock.json)
 .config/nvim/nvim-pack-lock.json
-.config/nvim/lazy-lock.json
 
 .DS_Store
