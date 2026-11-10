@@ -1,0 +1,4 @@
+# Accepted findings, one fingerprint per line (commit:file:rule:line).
+# Old statusline script (2026-05-19, on main) with an absolute home path. Delete this line
+# if history is rewritten to remove it.
+8cf6773030168eae1bca53c186923a43d8c36179:.claude/statusline.sh:home-path:93

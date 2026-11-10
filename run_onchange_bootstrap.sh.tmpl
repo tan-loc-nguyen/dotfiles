@@ -31,4 +31,7 @@ for agent in claude opencode; do
 	grep -q "^$agent: current" <<<"$status" && continue
 	herdr integration install "$agent"
 done
+
+# 4. This repo's pre-commit hook: blocks secrets and personal data (.githooks/, .gitleaks.toml).
+git -C {{ .chezmoi.sourceDir | quote }} config core.hooksPath .githooks
 {{ end -}}

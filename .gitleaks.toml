@@ -1,0 +1,20 @@
+# Secret + personal-data scan (repo is public). Used by the pre-commit hook (.githooks) and
+# CI (.github/workflows/gitleaks.yml). gitleaks' default rules, plus two of our own.
+title = "dotfiles"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "email-address"
+description = "Email address: keep personal and work addresses out of a public repo"
+regex = '''[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}'''
+
+[[rules.allowlists]]
+description = "Bot and placeholder addresses"
+regexes = ['''noreply@anthropic\.com''', '''@users\.noreply\.github\.com''', '''@example\.(com|org)''']
+
+[[rules]]
+id = "home-path"
+description = "Absolute home path: reveals the machine's user name (use ~ or $HOME)"
+regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''

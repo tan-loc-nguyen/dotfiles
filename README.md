@@ -49,6 +49,10 @@ Then do by hand:
 - Not tracked on purpose: everything in `~/.claude` — `CLAUDE.md` and `statusline.sh` are
   per-machine and `settings.json` is rewritten by Claude Code and herdr; also
   `nvim-pack-lock.json` (plugins float per machine).
+- **This repo is public.** A pre-commit hook (`.githooks/`, wired by the bootstrap) runs
+  gitleaks with `.gitleaks.toml`: it blocks secrets, email addresses and `/Users/<name>`
+  paths (write `~` or `$HOME`). CI scans the full history on every push. An accepted false
+  positive goes in `.gitleaksignore` with a comment saying why.
 
 ## Keys
 
