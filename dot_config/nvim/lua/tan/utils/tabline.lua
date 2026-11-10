@@ -8,11 +8,8 @@ function M.render()
 	for nr = 1, vim.fn.tabpagenr("$") do
 		local win = vim.fn.tabpagewinnr(nr)
 		local buf = vim.fn.tabpagebuflist(nr)[win]
-		local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
-		if name == "" then
-			name = "[No Name]"
-		end
-		local icon = MiniIcons.get("file", name)
+		local name = require("tan.utils.editor").buf_label(buf)
+		local icon = MiniIcons.get(name:sub(-1) == "/" and "directory" or "file", name)
 		name = name:gsub("%%", "%%%%") -- a literal % would start a tabline format code
 		local modified = vim.bo[buf].modified and "[+] " or ""
 		local hl = nr == current and "%#TanTabActive#" or "%#TanTabInactive#"

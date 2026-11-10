@@ -299,6 +299,17 @@ Avoid guide's bare `gr` (shadows built-in `gr*` keys).
   `lookPath "claude"` with `~/.local/bin` off PATH only costs one harmless re-run; `.zshrc`
   tools are unguarded but herdr (`shell_mode = "auto"`) and Ghostty both start login shells.
   Rejected: "visual `<leader>cf` formats the whole buffer" (conform uses the selection itself).
+- **Third review, 2026-11-10** (you: go). Fixed: a `"prettier"` devDependency counted as a
+  prettier config (package.json is now decoded; only a top-level `prettier` key counts);
+  `<leader>as` makes the path relative to the **chosen agent's cwd** (absolute when the file
+  is outside it), superseding PR ruling 15; `<leader>yf` stays relative to nvim's cwd; `.vue`
+  formats only with prettier (biome formats just the `<script>` part); oil views that
+  aren't local folders (trash `g\`, ssh) warn instead of throwing, visual mode in oil is
+  left after copying, and oil at the cwd root gives `@./`; oil tabs/incline tags show
+  `folder/` instead of `[No Name]`. Left as is (measured): lualine's `vim.fs.root` costs
+  ~0.01 ms per redraw; full `compinit` ~18 ms warm vs ~5 ms with `-C` (whole shell 90 ms),
+  and `-C` would miss completions new brew installs add. Rejected: "`herdr agent focus`
+  may not take a pane id" (tested: `herdr agent focus <pane_id>` exits 0).
 
 ## 4. Still to decide
 - [x] Options & behaviour → §2.1

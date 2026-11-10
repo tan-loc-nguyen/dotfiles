@@ -1,5 +1,17 @@
 local M = {}
 
+--- Short label for a buffer: its file name, "folder/" for an oil listing, or "[No Name]".
+---@return string
+function M.buf_label(buf)
+	local name = vim.api.nvim_buf_get_name(buf == 0 and vim.api.nvim_get_current_buf() or buf)
+	if name:match("^oil") then
+		name = vim.fs.basename((name:gsub("/+$", "")))
+		return name ~= "" and (name .. "/") or "/"
+	end
+	name = vim.fn.fnamemodify(name, ":t")
+	return name ~= "" and name or "[No Name]"
+end
+
 --- Close every listed buffer that isn't shown in any window. Unsaved buffers are skipped.
 ---@return integer deleted, integer skipped
 function M.delete_hidden_buffers()

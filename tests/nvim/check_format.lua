@@ -7,6 +7,9 @@ local prettier = { "prettierd", "prettier" }
 local cases = {
 	{ "prettier/a.ts", prettier },
 	{ "pkgprettier/a.ts", prettier }, -- "prettier" key in package.json
+	{ "pkgdep/a.ts", {} }, -- prettier only as a devDependency: not a config
+	{ "prettier/a.vue", prettier },
+	{ "biome/a.vue", {} }, -- biome only formats Vue's <script> part: not trusted with .vue
 	{ "nested/packages/a/src/a.ts", prettier }, -- config in a parent folder (monorepo)
 	{ "prettier-md/a.md", prettier },
 	{ "monorepo-pkg/packages/a/src/a.ts", prettier }, -- "prettier" key in the ROOT package.json

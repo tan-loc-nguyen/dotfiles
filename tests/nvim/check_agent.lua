@@ -55,6 +55,18 @@ t.run("agent", function()
 	oil_cursor_on("lsp", ".github/")
 	feed("<leader>yf")
 	t.eq(clip(), "@lsp/.github/", "oil folder reference")
+	oil_cursor_on("lsp", "app.ts")
+	feed("V<leader>yf")
+	t.eq(vim.fn.mode(), "n", "oil visual mode: back to normal after copying")
+
+	-- oil view that isn't a local folder (trash, ssh): warn, no error, nothing copied
+	local oil = require("oil")
+	local real_dir = oil.get_current_dir
+	oil.get_current_dir = function() end
+	vim.fn.setreg("+", "")
+	local ok_nonlocal = pcall(feed, "<leader>yf")
+	oil.get_current_dir = real_dir
+	t.ok(ok_nonlocal and clip() == "", "non-local oil view: no error, nothing copied")
 
 	-- send outside herdr → clipboard fallback
 	local agent = require("tan.utils.agent")
@@ -91,6 +103,20 @@ t.run("agent", function()
 	feed("<leader>as")
 	t.eq(calls[1], "herdr pane send-text w1:p9 @lsp/app.ts#L2 ", "idle agent: text sent without Enter")
 	t.eq(calls[2], "herdr agent focus w1:p9", "idle agent: pane focused")
+
+	-- the path is relative to the chosen agent's cwd; outside it, absolute
+	local abs = vim.fn.fnamemodify("lsp/app.ts", ":p")
+	for _, c in ipairs({
+		{ vim.fn.getcwd() .. "/lsp", "@app.ts#L2", "agent in lsp/: relative to its cwd" },
+		{ "/somewhere/else", "@" .. abs .. "#L2", "agent elsewhere: absolute path" },
+	}) do
+		agent.list_agents = function()
+			return { { agent = "claude", agent_status = "idle", pane_id = "w1:p9", cwd = c[1] } }
+		end
+		calls = {}
+		feed("<leader>as")
+		t.eq(calls[1], "herdr pane send-text w1:p9 " .. c[2] .. " ", c[3])
+	end
 	vim.env.HERDR_ENV = nil
 
 	-- the real seams never throw: herdr printing `null`, or herdr missing from PATH

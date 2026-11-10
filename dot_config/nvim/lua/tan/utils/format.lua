@@ -12,10 +12,10 @@ local js_like = {
 	typescriptreact = true,
 	json = true,
 	jsonc = true,
-	vue = true,
 }
--- prettier also covers these; oxfmt/biome are only trusted with JS/TS/JSON
-local prettier_only = { css = true, scss = true, html = true, markdown = true, yaml = true, graphql = true }
+-- prettier also covers these; oxfmt/biome are only trusted with JS/TS/JSON (biome formats
+-- only the <script> part of a .vue file)
+local prettier_only = { css = true, scss = true, html = true, markdown = true, yaml = true, graphql = true, vue = true }
 
 local configs = {
 	oxfmt = { ".oxfmtrc.json", ".oxfmtrc.jsonc" },
@@ -78,8 +78,24 @@ local function any_contains(bufnr, name, pattern)
 	return false
 end
 
+-- A top-level "prettier" key in any package.json up to the git root. Decoded, so a
+-- "prettier" entry under devDependencies doesn't count as a config.
+local function package_json_has_prettier(bufnr)
+	for _, path in ipairs(find_all(bufnr, { "package.json" })) do
+		local f = io.open(path, "r")
+		if f then
+			local ok, decoded = pcall(vim.json.decode, f:read("*a"))
+			f:close()
+			if ok and type(decoded) == "table" and decoded.prettier ~= nil then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local function has_prettier(bufnr)
-	return find(bufnr, configs.prettier) ~= nil or any_contains(bufnr, "package.json", '"prettier"%s*:')
+	return find(bufnr, configs.prettier) ~= nil or package_json_has_prettier(bufnr)
 end
 
 -- biome.json can turn biome's formatter off (biome used only as a linter)

@@ -63,11 +63,8 @@ vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
 -- File name tag in the top-right of each split (the global bar only shows the active one)
 require("incline").setup({
 	render = function(props)
-		local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-		if name == "" then
-			name = "[No Name]"
-		end
-		local icon, hl = MiniIcons.get("file", name)
+		local name = require("tan.utils.editor").buf_label(props.buf)
+		local icon, hl = MiniIcons.get(name:sub(-1) == "/" and "directory" or "file", name)
 		local modified = vim.bo[props.buf].modified and " [+]" or ""
 		return { { icon .. " ", group = hl }, name .. modified }
 	end,
