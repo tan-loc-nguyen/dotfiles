@@ -7,20 +7,21 @@ eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 export EDITOR=nvim
 export VISUAL=nvim
 
-# PATH. -U keeps entries unique: a shell started from another shell re-adds them all.
+# PATH. -U keeps entries unique (a shell started from another shell re-adds them all); it
+# only works on assignments to the `path` array, so add entries as path=(new $path).
 typeset -U path
-export PATH="$HOME/.local/bin:$PATH"
+path=("$HOME/.local/bin" $path)
 {{- if stat (joinPath .chezmoi.homeDir ".docker/bin") }}
-export PATH="$HOME/.docker/bin:$PATH"                         # Docker Desktop CLI
+path=("$HOME/.docker/bin" $path) # Docker Desktop CLI
 {{- end }}
 # CocoaPods (gem on Homebrew Ruby). Found when the shell starts, so it works on the first
 # login after bootstrap installs ruby, and after Ruby version bumps. (N) = skip if none.
-for d in /opt/homebrew/lib/ruby/gems/*/bin(N); do export PATH="$d:$PATH"; done
+path=(/opt/homebrew/lib/ruby/gems/*/bin(N) $path)
 {{- if stat (joinPath .chezmoi.homeDir "Library/Android/sdk") }}
 
 # Android SDK
 export ANDROID_HOME="$HOME/Library/Android/sdk"
-export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+path=("$ANDROID_HOME/emulator" "$ANDROID_HOME/platform-tools" $path)
 {{- end }}
 
 # Claude Code
