@@ -14,3 +14,6 @@ prefix = "ctrl+space"
 # "system" uses terminal-notifier (Brewfile) so clicking it brings the terminal forward.
 # herdr skips the popup for the tab you're already looking at.
 delivery = "system"
+
+[ui.sound]
+enabled = true
