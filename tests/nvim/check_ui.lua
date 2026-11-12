@@ -19,6 +19,9 @@ t.run("ui", function()
 		return vim.bo.filetype == "oil"
 	end, 50)
 	t.eq(require("tan.utils.editor").buf_label(0), "lsp/", "oil buffer label")
+	-- Cmd+P (Ghostty sends <C-p>) finds files in oil too; oil's preview moves to gp
+	t.eq(vim.fn.maparg("<C-p>", "n", false, true).desc, "Find files", "oil: <C-p> is the file finder")
+	t.eq(vim.fn.maparg("gp", "n", false, true).buffer, 1, "oil: gp is oil's preview")
 	for _, c in ipairs({ { "oil:///", "/" }, { "oil-trash:///", "trash/" }, { "oil-ssh://host//srv/app/", "app/" } }) do
 		local b = vim.api.nvim_create_buf(false, true)
 		vim.api.nvim_buf_set_name(b, c[1])

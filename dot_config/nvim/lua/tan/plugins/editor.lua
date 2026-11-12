@@ -9,7 +9,8 @@ require("oil").setup({
 	skip_confirm_for_simple_edits = true,
 	view_options = { show_hidden = true },
 	win_options = { signcolumn = "yes:2" }, -- room for oil-git-status
-	keymaps = { q = "actions.close" },
+	-- <C-p> stays the file finder (Ghostty Cmd+P); oil's preview moves to gp
+	keymaps = { q = "actions.close", ["<C-p>"] = false, gp = "actions.preview" },
 })
 require("oil-git-status").setup()
 

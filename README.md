@@ -95,7 +95,7 @@ notification · `b` sidebar · `q` detach (`herdr` reattaches) · `?` help.
 | Find | `<leader>ff` files · `fg` grep (capital = incl. ignored) · `fb` buffers · `fh` help · `fd` diagnostics · `fs`/`fS` symbols · `<C-p>` |
 | Buffers | `<Tab>`/`<S-Tab>` cycle · `<leader>bd` close · `<leader>bh` close hidden · `<C-n>` jump forward |
 | Windows | `ss`/`sv` split · `sh sj sk sl` move · `te` new tab (`gt`/`gT`) |
-| Files | `-` oil here · `sf` oil float (`q` closes) |
+| Files | `-` oil here · `sf` oil float (`q` closes) · `gp` preview the entry in oil |
 | Review | `]h`/`[h` hunks · `<leader>gs` stage (accept) · `gr` reset (reject) · `gp` preview · `gS`/`gR` whole file · `gb` blame · `gd` CodeDiff tab · `gh`/`gH` history · `gg` lazygit · `gf` file log |
 | Code | `gd` `gD` `grr` `gri` `grt` · `K` · `<C-k>` signature · `<leader>cr` rename · `ca` action · `cf` format · `ci` inlay hints · `cd` line diagnostics · `]d` `]e` `]w` |
 | Agents | `<leader>yf` copy `@path#L12-20` (normal / visual / oil) · `yp` absolute · `<leader>as` send to a herdr agent |
