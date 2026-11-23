@@ -15,3 +15,6 @@ require("oil").setup({
 require("oil-git-status").setup()
 
 require("mini.pairs").setup()
+
+-- `:LivePreview start` serves the markdown in a browser; stop its server when the last tab closes
+require("tan.utils.livepreview").setup()

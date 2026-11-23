@@ -247,7 +247,12 @@ their keys. No bare `gr` (it would shadow the built-in `gr*` keys).
   bashls, lua_ls, plus **jsonls and yamlls with SchemaStore** (CI workflows, compose files,
   `tsconfig` / `package.json` get completion and validation).
 - **Formatters**: goimports, ruff_format, shfmt, stylua, prettierd / prettier, oxfmt, biome.
-- **markdown-preview.nvim**; **mini.pairs** for auto-pairs.
+- **live-preview.nvim** for the browser preview (`:LivePreview start`); **mini.pairs** for auto-pairs.
+  It replaced markdown-preview.nvim, whose downloaded server binary is unsigned and gets killed
+  by macOS on Apple Silicon (upstream unmaintained since 2023). live-preview never stops its
+  server when the tab closes, so `utils/livepreview.lua` polls the plugin's internal
+  `connecting_clients` list and calls its `close()` 5 s after the last tab goes. If an update
+  renames that field, `tests/nvim/check_livepreview.lua` fails.
 
 ### 3.11 Hardening after review (2026-11-10)
 Four review rounds on the finished setup. What changed, and what was deliberately left:
