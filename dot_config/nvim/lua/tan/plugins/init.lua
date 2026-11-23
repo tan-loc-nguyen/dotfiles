@@ -12,10 +12,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 		if kind ~= "install" and kind ~= "update" then
 			return
 		end
-		if name == "markdown-preview.nvim" then
-			vim.cmd.packadd(name)
-			vim.fn["mkdp#util#install"]() -- downloads the preview server binary
-		elseif name == "nvim-treesitter" and kind == "update" then
+		if name == "nvim-treesitter" and kind == "update" then
 			vim.cmd.packadd(name)
 			vim.cmd("TSUpdate") -- rebuild parsers to match the new nvim-treesitter
 		end
@@ -37,7 +34,7 @@ vim.pack.add({
 	{ src = gh("stevearc/oil.nvim") },
 	{ src = gh("refractalize/oil-git-status.nvim") },
 	{ src = gh("nvim-mini/mini.pairs") },
-	{ src = gh("iamcco/markdown-preview.nvim") },
+	{ src = gh("brianhuster/live-preview.nvim") }, -- pure Lua; `:LivePreview start`
 	-- Git
 	{ src = gh("lewis6991/gitsigns.nvim") },
 	{ src = gh("esmuellert/codediff.nvim") }, -- note: other repos share this name
