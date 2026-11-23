@@ -5,3 +5,6 @@ dot_config/nvim/nvim-pack-lock.json
 
 # Migration working documents: kept locally, not published
 docs/archive/
+
+# Plans
+docs/superpowers
